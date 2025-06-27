@@ -1,0 +1,49 @@
+﻿@{
+    ViewData["Title"] = "Inicio";
+}
+
+@*
+  Hero Header: sección destacada con texto a la izquierda y imagen a la derecha
+*@
+<section class="py-5 bg-warning" style="background-color: #FFC107;">
+    <!-- py-5 = padding vertical -->
+    <div class="container-fluid px-0">
+        <div class="row align-items-center flex-column-reverse flex-lg-row">
+            <!-- Alinea verticalmente filas -->
+            <!-- Columna de texto -->
+            <div class="col-lg-6 text-center text-lg-start mb-4 mb-lg-0">
+                <h1 class="display-4 fw-bold" style="color: #003A8C;">
+                    AQUI SI HAY
+                </h1>
+                <h1 class="display-4 fw-bold" style="color: #47b7f6;">
+                    PRECIOS BAJOS
+                </h1>
+                <p class="font-weight-bold">
+                    Y LA CALIDAD QUE EL BARRIO PIDE
+                </p>
+                <p class="lead text-dark">
+                    Encuentra todo lo que necesitas
+                </p>
+                <p class="lead text-dark">
+                    con la mejor tecnología.
+                </p>
+                <button type="button" class="btn btn-secondary btn-dark btn-lg">COMPRAR AHORA</button>
+            </div>
+
+            <!-- Columna de imagen -->
+            <div class="col-lg-6 text-center">
+                @* Imagen de la señora con canasta. Ajusta el path según tu carpeta de imágenes *@
+                <img src="~/images/InicioMan.png"
+                     alt="Hombre colaborador"
+                     class="img-fluid rounded" />
+                <!--
+                  img-fluid = imagen responsive (100% ancho del contenedor)
+                  rounded = bordes redondeados
+                  shadow = sombra suave
+                -->
+            </div>
+
+        </div>
+    </div>
+</section>
+

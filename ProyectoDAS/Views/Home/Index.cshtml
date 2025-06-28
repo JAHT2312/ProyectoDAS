@@ -5,29 +5,33 @@
 @*
   Hero Header: sección destacada con texto a la izquierda y imagen a la derecha
 *@
-<section class="py-5 bg-warning" style="background-color: #FFC107;">
+<section class="py-5 bg-warning">
     <!-- py-5 = padding vertical -->
-    <div class="container-fluid px-0">
+    <div class="container-fluid">
         <div class="row align-items-center flex-column-reverse flex-lg-row">
             <!-- Alinea verticalmente filas -->
             <!-- Columna de texto -->
-            <div class="col-lg-6 text-center text-lg-start mb-4 mb-lg-0">
-                <h1 class="display-4 fw-bold" style="color: #003A8C;">
-                    AQUI SI HAY
+            <div class="col-lg-6 ps-lg-5 text-center text-lg-start mb-4 mb-lg-0">
+                <h1 class="display-2 fw-bold" style="color: #003A8C;">
+                    AQUÍ SI HAY
                 </h1>
-                <h1 class="display-4 fw-bold" style="color: #47b7f6;">
+                <h1 class="display-2 fw-bold" style="color: #47b7f6;">
                     PRECIOS BAJOS
                 </h1>
-                <p class="font-weight-bold">
+                <p class="fs-3 fw-bold" style="color: #2e4aa9;">
                     Y LA CALIDAD QUE EL BARRIO PIDE
                 </p>
-                <p class="lead text-dark">
+                <p class="fs-4" style="color: #2e4aa9;">
                     Encuentra todo lo que necesitas
                 </p>
-                <p class="lead text-dark">
+                <p class="fs-5" style="color: #2e4aa9;">
                     con la mejor tecnología.
                 </p>
-                <button type="button" class="btn btn-secondary btn-dark btn-lg">COMPRAR AHORA</button>
+                <a href="#" class="btn btn-dark btn-lg rounded-pill">
+                    <!-- Icono de carrito con margen a la derecha -->
+                    <i class="bi bi-cart-fill me-2"></i>
+                    Comprar Ahora
+                </a>
             </div>
 
             <!-- Columna de imagen -->
@@ -46,4 +50,198 @@
         </div>
     </div>
 </section>
+@* ================================
+   Sección “Recomendado para ti”
+   ================================ *@
+<section class="py-5 bg-gradient" style="background-color:#003A8C;">
+    <!-- bg-light para diferenciar del hero -->
+    <div class="container">
+        @* Título de la sección *@
+        <h2 class="h3 text-center fw-bold mb-4 text-light">
+            <i class="bi bi-bookmark-fill text-warning me-2"></i>  @* Icono de marcador *@
+            Recomendado para ti
+        </h2>
+        @* Subtítulo o descripción breve *@
+        <p class="text-center text-light mb-5">
+            En base a tus preferencias, hemos seleccionado estos productos para ti
+        </p>
+        @* Fila de tarjetas *@
+        <div class="row g-4">
 
+            @* Tarjeta 1 *@
+            <div class="col-6 col-md-3">
+                <div class="card h-100 shadow-sm">
+                    @* Imagen del producto *@
+                    <img src="~/images/panquita.jpg"
+                         class="card-img-top"
+                         alt="Aji Panquita 250g">
+                    <div class="card-body d-flex flex-column">
+                        @* Nombre *@
+                        <h5 class="card-title">Panquita Sibarita 250g</h5>
+                        @* Descripción corta o categoría *@
+                        <p class="card-text text-muted mb-4">Ají Panca Molido SIBARITA Panquita Doypack 250g</p>
+                        @* Precio y botón de “+” alineados abajo *@
+                        <div class="mt-auto d-flex justify-content-between align-items-center">
+                            <span class="fw-bold text-warning">S/ 5.00</span>
+                            <button class="btn btn-sm btn-outline-dark"
+                                    title="Agregar al carrito">
+                                <i class="bi bi-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @* Tarjeta 2 *@
+            <div class="col-6 col-md-3">
+                <div class="card h-100 shadow-sm">
+                    <img src="~/images/aceitesao.jpg" class="card-img-top" alt="Aceite de Girasol 1L">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">Aceite de Girasol SAO 1L</h5>
+                        <p class="card-text text-muted mb-4">Óptima para cocinar</p>
+                        <div class="mt-auto d-flex justify-content-between align-items-center">
+                            <span class="fw-bold text-warning">S/ 12.50</span>
+                            <button class="btn btn-sm btn-outline-dark" title="Agregar al carrito">
+                                <i class="bi bi-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @* Tarjeta 3 *@
+            <div class="col-6 col-md-3">
+                <div class="card h-100 shadow-sm">
+                    <img src="~/images/hola.jpg" class="card-img-top" alt="Leche Pasteurizada 1L">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">Leche Pasteurizada Vacas Felices 1L</h5>
+                        <p class="card-text text-muted mb-4">Fresca y nutritiva</p>
+                        <div class="mt-auto d-flex justify-content-between align-items-center">
+                            <span class="fw-bold text-warning">S/ 10.20</span>
+                            <button class="btn btn-sm btn-outline-dark" title="Agregar al carrito">
+                                <i class="bi bi-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @* Tarjeta 4 *@
+            <div class="col-6 col-md-3">
+                <div class="card h-100 shadow-sm">
+                    <img src="~/images/bagette.jpg" class="card-img-top" alt="Pan Baguette">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">Pan Baguette</h5>
+                        <p class="card-text text-muted mb-4">Reciente del horno</p>
+                        <div class="mt-auto d-flex justify-content-between align-items-center">
+                            <span class="fw-bold text-warning">S/ 2.00</span>
+                            <button class="btn btn-sm btn-outline-dark" title="Agregar al carrito">
+                                <i class="bi bi-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        @* Botón ver más recomendaciones centrado *@
+        <div class="text-center mt-5">
+            <a href="#" class="btn btn-warning btn-lg">
+                Ver más recomendaciones
+            </a>
+        </div>
+    </div>
+</section>
+
+@* ================================
+   Sección “Nuestras Categorías”
+   ================================ *@
+<section class="py-5 bg-light">
+    <div class="container">
+
+        @* Título central con icono *@
+        <h2 class="h3 text-center text-primary fw-bold mb-5">
+            <i class="bi bi-lock-fill me-2"></i>  @* Icono de candado (puedes cambiarlo) *@
+            Nuestras Categorías
+        </h2>
+
+        @* Grid de 4 tarjetas *@
+        <div class="row g-4 justify-content-center">
+
+            @* Tarjeta 1: Alimentación *@
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="card h-100 shadow-sm rounded-3">
+                    <div class="card-body text-center">
+                        @* Icono de alimentación *@
+                        <i class="bi bi-egg-fried fs-1 text-warning mb-3"></i>
+                        @* Título *@
+                        <h5 class="card-title">Alimentación</h5>
+                        @* Descripción *@
+                        <p class="card-text text-muted mb-4">
+                            Productos básicos para tu hogar
+                        </p>
+                        @* Botón “Ver Productos” *@
+                        <a href="/Categorias/Alimentacion"
+                           class="btn btn-outline-primary btn-sm">
+                            Ver Productos
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            @* Tarjeta 2: Limpieza *@
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="card h-100 shadow-sm rounded-3">
+                    <div class="card-body text-center">
+                        <i class="bi bi-droplet fs-1 text-success mb-3"></i>
+                        <h5 class="card-title">Limpieza</h5>
+                        <p class="card-text text-muted mb-4">
+                            Todo para mantener tu casa impecable
+                        </p>
+                        <a href="/Categorias/Limpieza"
+                           class="btn btn-outline-primary btn-sm">
+                            Ver Productos
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            @* Tarjeta 3: Bebé *@
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="card h-100 shadow-sm rounded-3">
+                    <div class="card-body text-center">
+                        <i class="bi bi-person-badge fs-1 text-info mb-3"></i>
+                        <h5 class="card-title">Bebé</h5>
+                        <p class="card-text text-muted mb-4">
+                            Cuidado especial para los más pequeños
+                        </p>
+                        <a href="/Categorias/Bebe"
+                           class="btn btn-outline-primary btn-sm">
+                            Ver Productos
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            @* Tarjeta 4: Cuidado Personal *@
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="card h-100 shadow-sm rounded-3">
+                    <div class="card-body text-center">
+                        <i class="bi bi-heart-fill fs-1 text-danger mb-3"></i>
+                        <h5 class="card-title">Cuidado Personal</h5>
+                        <p class="card-text text-muted mb-4">
+                            Productos para tu bienestar
+                        </p>
+                        <a href="/Categorias/CuidadoPersonal"
+                           class="btn btn-outline-primary btn-sm">
+                            Ver Productos
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</section>

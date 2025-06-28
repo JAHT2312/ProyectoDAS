@@ -19,4 +19,12 @@ html {
 
 body {
   margin-bottom: 60px;
+  background-color: #212529;
 }
+.navbar-nav .nav-link {
+    color: #003A8C; /* un azul oscuro a tu gusto */
+}
+    /* Opcional: cambia al pasar el ratón */
+    .navbar-nav .nav-link:hover {
+        color: #0056b3; /* un azul más claro en hover */
+    }

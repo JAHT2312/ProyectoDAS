@@ -7,40 +7,152 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ProyectoDAS.styles.css" asp-append-version="true" />
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-lg navbar-light bg-warning fixed-top shadow">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ProyectoDAS</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+                @* Logo y nombre de la marca *@
+                <a class="navbar-brand text-white" href="/">
+                    <img src="~/images/mass_pequeño.png" alt="" width="130" height="30">
+                    @*<i class="bi bi-shop me-1"></i>*@  <!-- Icono de tienda -->               
+                </a>
+
+                @* Botón toggler para versión móvil *@
+                <button class="navbar-toggler" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#mainNavbar"
+                        aria-controls="mainNavbar" aria-expanded="false"
+                        aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+
+                @* Ítems colapsables *@
+                <div class="collapse navbar-collapse" id="mainNavbar">
+                    @* Enlaces principales a la izquierda *@
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item fs-5 fw-normal">
+                            <a class="nav-link text-white" href="#">Productos</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        <li class="nav-item fs-5 fw-normal">
+                            <a class="nav-link text-white" href="#">Ofertas</a>
+                        </li>
+                        <li class="nav-item fs-5 fw-normal">
+                            <a class="nav-link text-white" href="#">Tiendas</a>
                         </li>
                     </ul>
+
+                    @* Formulario de búsqueda centrado-izquierda *@
+                    <form class="d-flex me-3" role="search">
+                        <input class="form-control" type="search"
+                               placeholder="Buscar Productos…" aria-label="Search">
+                        <button class="btn btn-light ms-2" type="submit">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </form>
+
+                    @* Botón de Ingresar y carrito a la derecha *@
+                    <div class="d-flex align-items-center">
+                        <a class="btn btn-light me-2" href="#">
+                            <i class="bi bi-person"></i> Ingresar
+                        </a>
+                       
+                    </div>
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
+    <div class="container-fluid px-0">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <!-- ================================
+     Footer
+     ================================ -->
+    <footer class="bg-dark text-light pt-5 position-relative">
         <div class="container">
-            &copy; 2025 - ProyectoDAS - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <div class="row gy-4">
+
+                <!-- Columna 1: Logo y descripción -->
+                <div class="col-12 col-md-6 col-lg-3">
+                    <h5 class="mb-3">
+                        <i class="bi bi-shop me-1"></i> Mass
+                    </h5>
+                    <p class="small">
+                        Los mejores precios del barrio con la calidad que mereces.
+                    </p>
+                    <!-- Redes sociales -->
+                    <div class="d-flex gap-3">
+                        <a href="#" class="text-light fs-5"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="text-light fs-5"><i class="bi bi-instagram"></i></a>
+                        <a href="#" class="text-light fs-5"><i class="bi bi-twitter"></i></a>
+                    </div>
+                </div>
+
+                <!-- Columna 2: Enlaces Empresa -->
+                <div class="col-6 col-md-3 col-lg-3">
+                    <h6 class="fw-bold mb-3">Empresa</h6>
+                    <ul class="list-unstyled small">
+                        <li><a href="#" class="text-light text-decoration-none">Nosotros</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Trabaja con nosotros</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Términos y condiciones</a></li>
+                    </ul>
+                </div>
+
+                <!-- Columna 3: Atención al Cliente -->
+                <div class="col-6 col-md-3 col-lg-3">
+                    <h6 class="fw-bold mb-3">Atención al Cliente</h6>
+                    <ul class="list-unstyled small">
+                        <li>
+                            <i class="bi bi-telephone-fill me-2"></i>
+                            (01) 123-4567
+                        </li>
+                        <li>
+                            <i class="bi bi-envelope-fill me-2"></i>
+                            atencion@mass.pe
+                        </li>
+                        <li>
+                            <i class="bi bi-clock-fill me-2"></i>
+                            Lun – Dom: 7:00 AM – 10:00 PM
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Columna 4: Métodos de Pago -->
+                <div class="col-12 col-md-12 col-lg-3">
+                    <h6 class="fw-bold mb-3">Métodos de Pago</h6>
+                    <div class="d-flex align-items-center gap-3">
+                        <img src="~/images/visa.png" alt="Visa" style="height:60px;">
+                        <img src="~/images/mastercard.png" alt="Mastercard" style="height:32px;">
+                        <img src="~/images/amex.png" alt="Amex" style="height:32px;">
+                        <img src="~/images/paypal.png" alt="PayPal" style="height:70px;">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Línea separadora y texto final -->
+            <hr class="border-secondary my-4" />
+            <p class="small text-center mb-0">
+                © 2025 Tiendas Mass. Todos los derechos reservados.
+            </p>
         </div>
+
+        <!-- Carrito flotante (solo visual). Más adelante lo haremos interactivo. -->
+        <a href="#" class="btn btn-warning rounded-circle shadow-lg position-absolute"
+           style="bottom: 1rem; right: 1rem; width: 60px; height: 60px;">
+            <i class="bi bi-cart-fill fs-4"></i>
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary">
+                0
+            </span>
+        </a>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

@@ -12,7 +12,7 @@
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
 
-</head>
+ </head>
 <body>
     <header>
         <nav class="navbar navbar-expand-lg navbar-light bg-warning fixed-top shadow">
@@ -36,7 +36,19 @@
                     @* Enlaces principales a la izquierda *@
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item fs-5 fw-normal">
-                            <a class="nav-link text-white" href="#">Productos</a>
+                            @*<a class="nav-link text-white" href="#">Productos</a>*@
+                            <a class="nav-link text-white" asp-area="" asp-controller="Categoria" asp-action="Index">Categoria</a>
+                        </li>
+                        <li class="nav-item fs-5 fw-normal">
+                            @*<a class="nav-link text-white" href="#">Productos</a>*@
+                            <a class="nav-link text-white" asp-area="" asp-controller="Productos" asp-action="Index">Productos</a>
+                        </li>
+                        <li class="nav-item fs-5 fw-normal">
+                            @*<a class="nav-link text-white" href="#">Clientes</a>*@
+                            <a class="nav-link text-white" asp-area="" asp-controller="Clientes" asp-action="Index">Clientes</a>
+                        </li>
+                        <li class="nav-item fs-5 fw-normal">
+                            <a class="nav-link text-white" href="#">Comprar</a>
                         </li>
                         <li class="nav-item fs-5 fw-normal">
                             <a class="nav-link text-white" href="#">Ofertas</a>

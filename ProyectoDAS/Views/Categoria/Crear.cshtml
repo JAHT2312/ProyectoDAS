@@ -1,0 +1,63 @@
+﻿@model ProyectoDAS.Models.Categoria
+@{
+    ViewData["Title"] = "Crear";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .fondo-amarillo {
+        background-color: #FFC107;
+        padding: 30px;
+        border-radius: 10px;
+    }
+
+    h2.text-info {
+        color: #003A8C; /* Azul fuerte */
+    }
+</style>
+
+<div class="fondo-amarillo">
+
+    <form method="post" asp-action="Crear">
+        <div class="border p-3">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group row mt-4 text-end">
+                <h2 class="pl-4" style="color: #003399;">Nueva Categoría </h2>
+            </div>
+
+            <div class="container">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label asp-for="Nombre" class="form-label">Nombre Categoría</label>
+                        <input asp-for="Nombre" class="form-control" />
+                        <span asp-validation-for="Nombre" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label asp-for="EsActivo" class="form-label d-block">¿Está Activa?</label>
+                        <div class="form-check">
+                            <input asp-for="EsActivo" class="form-check-input" />
+                            <span asp-validation-for="EsActivo" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="d-grid gap-2 d-md-block">
+                    <button type="submit" class="btn text-white" style="background-color: #003399;">
+                        Crear Categoría
+                    </button>
+                    <a asp-controller="Categoria" asp-action="Index" class="btn btn-success">
+                        Regresar
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </form>
+</div>
+
+

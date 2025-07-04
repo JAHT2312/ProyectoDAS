@@ -1,0 +1,96 @@
+﻿@model IEnumerable<ProyectoDAS.Models.Clientes>
+@{
+    ViewData["Title"] = "Clientes";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .zona-amarrilla {
+        background-color: #FFC107;
+        min-height: 100vh;
+        padding: 40px 20px;
+    }
+
+        .zona-amarrilla h2 {
+            color: #003399; /* Azul fuerte */
+            font-weight: bold;
+        }
+
+    .tabla-clientes th, .tabla-clientes td {
+        vertical-align: middle;
+    }
+
+    .sin-clientes {
+        color: #003399;
+        font-size: 1.2rem;
+        font-weight: bold;
+    }
+</style>
+
+<div class="zona-amarrilla">
+    <div class="container">
+        <div class="row pt-4">
+            <div class="col-12 text-end">
+                <h2 style="color: #003A8C;">Clientes</h2>
+            </div>
+        </div>
+
+
+        <br />
+
+        @if (Model.Any())
+        {
+            <div class="row">
+                <div class="col-12">
+                    <table class="table table-bordered table-striped tabla-clientes" style="width:100%">
+                        <thead>
+                            <tr class="text-center" style="background-color: #003A8C; color: white;">
+                                <th>Nombre</th>
+                                <th>Apellido</th>
+                                <th>Correo</th>
+                                <th>Teléfono</th>
+                                <th>Dirección</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.Nombres</td>
+                                    <td>@item.Apellidos</td>
+                                    <td>@item.Correo</td>
+                                    <td>@item.Telefono</td>
+                                    <td>@item.Direccion</td>
+                                    <td>
+                                        <div class="btn-group" role="group">
+                                            <a asp-controller="Clientes" asp-action="Editar" asp-route-Id="@item.Id"
+                                               class="btn btn-sm mx-1 rounded"
+                                               style="background-color: #003A8C; color: white;">
+                                                <i class="bi bi-pencil-square"></i>
+                                            </a>
+
+                                            <a asp-controller="Clientes" asp-action="Eliminar" asp-route-Id="@item.Id"
+                                               class="btn btn-danger btn-sm mx-1 rounded">
+                                                <i class="bi bi-trash3"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="row">
+                <div class="col-12 text-center">
+                    <p class="sin-clientes">No hay registro de Clientes</p>
+                </div>
+            </div>
+        }
+    </div>
+</div>

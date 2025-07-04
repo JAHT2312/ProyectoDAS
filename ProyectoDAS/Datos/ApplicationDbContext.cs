@@ -16,7 +16,11 @@ namespace ProyectoDAS.Datos
 
         // Aquí defines los DbSet para cada modelo/entidad que necesites.
         // Ejemplo para un modelo "Producto":
-        // public DbSet<Producto> Productos { get; set; }
+        public DbSet<Clientes> Clientes { get; set; }
+
+        public DbSet<Productos> Productos { get; set; }
+
+        public DbSet<Categoria> Categoria { get; set; }
 
         // Si aún no tienes entidades creadas, deja esto vacío por ahora
         // y agrégalo cuando definas tus clases de dominio.

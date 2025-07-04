@@ -1,0 +1,109 @@
+﻿@model IEnumerable<ProyectoDAS.Models.Categoria>
+@{
+    ViewData["Title"] = "Categorias";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .zona-amarrilla {
+        background-color: #FFC107;
+        min-height: 100vh;
+        padding: 40px 20px;
+    }
+
+        .zona-amarrilla h2 {
+            color: #003399; /* Azul fuerte */
+            font-weight: bold;
+        }
+
+    .tabla-categoria th, .tabla-categoria td {
+        vertical-align: middle;
+    }
+
+    .sin-categoria {
+        color: #003399;
+        font-size: 1.2rem;
+        font-weight: bold;
+    }
+
+</style>
+
+<div class="zona-amarrilla">
+    <div class="container">
+        <div class="row pt-4">
+            <div class="col-12 text-end">
+                <h2 style="color: #003A8C;">Categoria</h2>
+            </div>
+            <div class="col-6">
+                <a asp-controller="Categoria" asp-action="Crear"
+                   class="btn text-white"
+                   style="background-color: #003399;">
+                    Nueva Categoría
+                </a>
+            </div>
+        </div>
+
+        <br />
+
+        @if (Model.Any())
+        {
+            <div class="row">
+                <div class="col-12">
+                    <table class="table table-bordered table-striped tabla-categoria" style="width:100%">
+                        <thead>
+                            <tr class="text-center" style="background-color: #003A8C; color: white;">
+                                <th>Nombre</th>
+                                <th>Activo</th>
+                                <th>Fecha de Creacion</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.Nombre</td>
+                                    <td class="text-center">
+                                        @if (item.EsActivo)
+                                        {
+                                            <i class="bi bi-check-circle-fill text-success fs-4" title="Activo"></i>
+                                        }
+                                        else
+                                        {
+                                            <i class="bi bi-x-octagon-fill text-danger fs-4" title="Inactivo"></i>
+                                        }
+                                    </td>
+                                    <td>@item.FechaCreacion.ToString("dd/MM/yyyy")</td>
+
+                                    <td>
+                                        <div class="btn-group" role="group">
+                                            <a asp-controller="Categoria" asp-action="Editar" asp-route-Id="@item.Id"
+                                               class="btn btn-sm mx-1 rounded"
+                                               style="background-color: #003A8C; color: white;">
+                                                <i class="bi bi-pencil-square"></i>
+                                            </a>
+
+                                            <a asp-controller="Categoria" asp-action="Eliminar" asp-route-Id="@item.Id"
+                                               class="btn btn-danger btn-sm mx-1 rounded">
+                                                <i class="bi bi-trash3"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="row">
+                <div class="col-12 text-center">
+                    <p class="sin-clientes">No hay registro de Categoria</p>
+                </div>
+            </div>
+        }
+    </div>
+</div>

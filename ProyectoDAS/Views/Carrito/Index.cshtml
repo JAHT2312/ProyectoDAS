@@ -1,0 +1,172 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@* ---------- Sección Breadcrumb ---------- *@
+<nav aria-label="breadcrumb" class="bg-white py-2 shadow-sm mb-4">
+    <div class="container">
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a href="/">Inicio</a></li>
+            <li class="breadcrumb-item"><a href="/Products">Productos</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Carrito de Compras</li>
+        </ol>
+    </div>
+</nav>
+
+@*
+  Envolvemos banner, carrito y resumen en un contenedor de fondo gris claro
+*@
+<section class="py-5" style="background-color: #f0f0f0;">
+    <div class="container">
+        <div class="row gx-4">
+
+            @* Columna izquierda: Banner de ahorro + Carrito *@
+            <div class="col-lg-8">
+
+                @* ---------- Banner de ahorro inteligente ---------- *@
+                <div class="alert alert-success d-flex align-items-center mb-4" role="alert">
+                    <i class="bi bi-cash-stack fs-3 me-3"></i>
+                    <div>
+                        <h4 class="alert-heading mb-1">S/ 12.30 Ahorrados!</h4>
+                        <p class="mb-0">Tu carrito inteligente está ahorrando dinero comparado con otros supermercados</p>
+                    </div>
+                </div>
+
+                @* ---------- Tu Carrito Inteligente (lista de ítems) ---------- *@
+                <div class="card shadow-sm mb-4">
+                    <div class="card-body">
+                        <h3 class="card-title mb-3">
+                            <i class="bi bi-cart3 me-2 text-primary"></i> Tu Carrito Inteligente
+                        </h3>
+                        <p class="text-muted mb-4">
+                            <i class="bi bi-robot me-1"></i> Optimizado con inteligencia artificial para maximizar tu ahorro
+                        </p>
+                        <div class="list-group">
+                            @* Lista de productos en el carrito *@
+                                @* Ítem de ejemplo *@
+                                <div class="list-group-item d-flex align-items-center py-3">
+
+                                    @* Info del producto *@
+                                    <div class="flex-grow-1">
+                                        <h5 class="mb-1">Arroz Costeño Extra 5kg</h5>
+                                        <small class="text-muted d-block">Arroz de alta calidad, grano largo</small>
+                                        <small class="text-success"><i class="bi bi-check-circle me-1"></i>Disponible para entrega inmediata</small>
+                                    </div>
+
+                                    @* Cantidad y controles *@
+                                    <div class="d-flex align-items-center me-4">
+                                        <button class="btn btn-outline-primary btn-sm me-1">−</button>
+                                        <input type="number" class="form-control form-control-sm text-center" value="2" style="width:50px;">
+                                        <button class="btn btn-outline-primary btn-sm ms-1">+</button>
+                                    </div>
+
+                                    @* Precio unitario y subtotal *@
+                                    <div class="text-end me-4">
+                                        <div>S/ 18.90 <small class="text-muted">c/u</small></div>
+                                        <div class="fw-bold text-success">S/ 37.80</div>
+                                    </div>
+
+                                    @* Botón eliminar *@
+                                    <button class="btn btn-outline-danger btn-sm">
+                                        <i class="bi bi-trash-fill"></i>
+                                    </button>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            @* Columna derecha: Resumen del Pedido *@
+            <div class="col-lg-4">
+
+                @* ---------- Resumen del Pedido (sidebar) ---------- *@
+                <div class="card shadow-sm mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <i class="bi bi-list-check me-2 text-primary"></i> Resumen del Pedido
+                        </h5>
+                        <ul class="list-unstyled mb-3">
+                            <li>Subtotal (4 productos): <span class="float-end">S/ 91.90</span></li>
+                            <li class="text-success">Descuento IA: <span class="float-end">S/ 6.50</span></li>
+                            <li>Delivery: <span class="float-end text-success">¡GRATIS!</span></li>
+                            <li>IGV (18%): <span class="float-end">S/ 15.37</span></li>
+                        </ul>
+                        <hr>
+                        <h4 class="fw-bold">
+                            Total: <span class="float-end">S/ 100.77</span>
+                        </h4>
+                        <p class="small text-success mb-3">
+                            Ahorras S/ 12.30 vs. precio regular
+                        </p>
+                        <button class="btn btn-success w-100 mb-2">PROCEDER AL PAGO</button>
+                        <div class="alert alert-light mb-4" role="alert">
+                            Compra 100% Segura</div>
+                    </div>
+                </div>
+
+            </div>
+            @* ---------- Insights Inteligentes ---------- *@
+                <div class="card shadow-sm text-white border-0 mb-5"
+                     style="background: linear-gradient(90deg, #28a745, #17a2b8);">
+                    <div class="card-body">
+                        <h5 class="card-title mb-3">
+                            <i class="bi bi-lightbulb-fill me-2"></i> Insights Inteligentes
+                        </h5>
+                        <ul class="list-unstyled mb-0">
+                            <li class="mb-2">
+                                <i class="bi bi-pie-chart-fill me-2"></i>
+                                <strong>Patrón de Compra Detectado:</strong> Usualmente compras productos de limpieza los martes. ¿Agregamos detergente?
+                            </li>
+                            <li class="mb-2">
+                                <i class="bi bi-clock-history me-2"></i>
+                                <strong>Predicción de Compra:</strong> Basado en tu historial, necesitarás papel higiénico en 3 días.
+                            </li>
+                            <li>
+                                <i class="bi bi-percent me-2"></i>
+                                <strong>Oportunidad de Ahorro:</strong> Comprando 2 aceites más obtienes 15% de descuento adicional.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            @* ---------- Recomendaciones Inteligentes ---------- *@
+                <div class="card shadow-sm text-white border-0"
+                     style="background: linear-gradient(90deg, #6f42c1, #6610f2);">
+                    <div class="card-body">
+                        <h5 class="card-title mb-4">
+                            <i class="bi bi-lightning-fill me-2"></i> Recomendaciones Inteligentes
+                        </h5>
+                        <div class="row g-3">
+                            @* Tarjeta de recomendación *@
+                            <div class="col-12 col-md-6 col-lg-3">
+                                <div class="card bg-transparent border-light h-100">
+                                    <div class="card-body text-light d-flex flex-column">
+                                    @*<img src="~/images/papel-higienico.jpg" alt="Papel Higiénico" class="img-fluid mb-3">*@
+                                        <h6 class="card-title">Papel Higiénico Suave</h6>
+                                        <small class="text-white-50 mb-2">Clientes como tú también compraron</small>
+                                        <div class="mt-auto d-flex justify-content-between align-items-center">
+                                            <span class="fw-bold">S/ 28.90</span>
+                                            <button class="btn btn-warning btn-sm">
+                                                <i class="bi bi-plus-lg"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @* Repite para cada recomendación... *@
+                        </div>
+                        <div class="text-center mt-4">
+                            <a href="#" class="btn btn-outline-light">Ver Más Recomendaciones →</a>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+</section>
+
+
+
+

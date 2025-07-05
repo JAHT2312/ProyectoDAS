@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace ProyectoDAS.Models
 {
@@ -11,6 +12,7 @@ namespace ProyectoDAS.Models
         public DateTime FechaCreacion { get; set; }
 
         // Opcional: lista de productos
+        [ValidateNever]
         public ICollection<Productos> Productos { get; set; }
     }
 }

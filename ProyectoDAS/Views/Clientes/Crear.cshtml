@@ -1,0 +1,73 @@
+﻿@model ProyectoDAS.Models.Clientes
+@{
+    ViewData["Title"] = "Crear";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .fondo-amarillo {
+        background-color: #FFC107;
+        padding: 30px;
+        border-radius: 10px;
+    }
+
+    h2.text-info {
+        color: #003A8C; /* Azul fuerte */
+    }
+</style>
+
+<div class="fondo-amarillo">
+
+    <form method="post" asp-action="Crear">
+        <div class="border p-3">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group row mt-4 text-end">
+                <h2 class="pl-4" style="color: #003399;">Nuevo Cliente</h2>
+            </div>
+
+            <div class="container">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label asp-for="Nombres" class="form-label">Nombre</label>
+                        <input asp-for="Nombres" class="form-control" />
+                        <span asp-validation-for="Nombres" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label asp-for="Apellidos" class="form-label">Apellidos</label>
+                        <input asp-for="Apellidos" class="form-control" />
+                        <span asp-validation-for="Apellidos" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label asp-for="Correo" class="form-label">Correo</label>
+                        <input asp-for="Correo" class="form-control" />
+                        <span asp-validation-for="Correo" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label asp-for="Direccion" class="form-label">Direccion</label>
+                        <input asp-for="Direccion" class="form-control" />
+                        <span asp-validation-for="Direccion" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label asp-for="Telefono" class="form-label">Telefono</label>
+                        <input asp-for="Telefono" class="form-control" />
+                        <span asp-validation-for="Telefono" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="d-grid gap-2 d-md-block">
+                    <button type="submit" class="btn text-white" style="background-color: #003399;">Crear Cliente</button>
+                    <a asp-controller="Clientes" asp-action="Index" class="btn btn-success">Regresar</a>
+                </div>
+
+            </div>
+        </div>
+    </form>
+</div>

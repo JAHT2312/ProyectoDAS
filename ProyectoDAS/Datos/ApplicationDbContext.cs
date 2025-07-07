@@ -22,6 +22,9 @@ namespace ProyectoDAS.Datos
 
         public DbSet<Categoria> Categoria { get; set; }
 
+        public DbSet<Orden> Ordenes { get; set; }
+        public DbSet<OrdenDetalle> OrdenDetalles { get; set; }
+
         // Si aún no tienes entidades creadas, deja esto vacío por ahora
         // y agrégalo cuando definas tus clases de dominio.
     }

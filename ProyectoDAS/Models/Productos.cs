@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace ProyectoDAS.Models
 {
@@ -17,6 +18,8 @@ namespace ProyectoDAS.Models
         public DateTime FechaCreacion { get; set; }
         public string ImagenUrl { get; set; }
         public int CategoriaId { get; set; }
+
+        [ValidateNever]
         public Categoria Categoria { get; set; }
     }
 

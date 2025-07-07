@@ -12,11 +12,12 @@
     }
 
         .zona-amarrilla h2 {
-            color: #003399; /* Azul fuerte */
+            color: #003399;
             font-weight: bold;
         }
 
-    .tabla-productos th, .tabla-productos td {
+    .tabla-productos th,
+    .tabla-productos td {
         vertical-align: middle;
     }
 
@@ -24,6 +25,21 @@
         color: #003399;
         font-size: 1.2rem;
         font-weight: bold;
+    }
+
+    /* ✅ Cabecera sticky */
+    .sticky-header th {
+        position: sticky;
+        top: 0;
+        background-color: #003A8C;
+        color: white;
+        z-index: 2;
+    }
+
+    /* ✅ Contenedor de tabla con scroll más alto */
+    .contenedor-tabla-scroll {
+        max-height: 600px;
+        overflow-y: auto;
     }
 </style>
 
@@ -35,75 +51,88 @@
             </div>
         </div>
 
+        <div class="col-6">
+            <a asp-controller="Productos" asp-action="Crear"
+               class="btn text-white"
+               style="background-color: #003399;">
+                Nuevo Producto
+            </a>
+        </div>
+
         <br />
 
         @if (Model.Any())
         {
             <div class="row">
                 <div class="col-12">
-                    <table class="table table-bordered table-striped tabla-productos" style="width:100%">
-                        <thead>
-                            <tr class="text-center" style="background-color: #003A8C; color: white;">
-                                <th>Nombre</th>
-                                <th>Descripción</th>
-                                <th>Categoría</th>
-                                <th>Precio</th>
-                                <th>Stock</th>
-                                <th>Activo</th>
-                                <th>Destacado</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            @foreach (var item in Model)
-                            {
-                                <tr>
-                                    <td>@item.Nombre</td>
-                                    <td>@item.Descripcion</td>
-                                    <td>@item.Categoria?.Nombre</td>
-                                    <td>@item.Precio.ToString("F2")</td>
-                                    <td class="text-center @(item.Stock < 20 ? "text-danger fw-bold" : "")">
-                                        @item.Stock
-                                    </td>
-                                    <td class="text-center">
-                                        @if (item.Esactivo)
-                                        {
-                                            <i class="bi bi-check-circle-fill text-success fs-4" title="Activo"></i>
-                                        }
-                                        else
-                                        {
-                                            <i class="bi bi-x-octagon-fill text-danger fs-4" title="Inactivo"></i>
-                                        }
-                                    </td>
-                                    <td class="text-center">
-                                        @if (item.Esdestacado)
-                                        {
-                                            <i class="bi bi-arrow-up-circle-fill text-success fs-4" title="Destacado"></i>
-                                        }
-                                        else
-                                        {
-                                            <i class="bi bi-arrow-down-circle-fill text-danger fs-4" title="No Destacado"></i>
-                                        }
-                                    </td>
-                                    <td>
-                                        <div class="btn-group" role="group">
-                                            <a asp-controller="Productos" asp-action="Editar" asp-route-Id="@item.Id"
-                                               class="btn btn-sm mx-1 rounded"
-                                               style="background-color: #003A8C; color: white;">
-                                                <i class="bi bi-pencil-square"></i>
-                                            </a>
-
-                                            <a asp-controller="Productos" asp-action="Eliminar" asp-route-Id="@item.Id"
-                                               class="btn btn-danger btn-sm mx-1 rounded">
-                                                <i class="bi bi-trash3"></i>
-                                            </a>
-                                        </div>
-                                    </td>
+                    <!-- ✅ Contenedor con scroll y altura extendida -->
+                    <div class="table-responsive contenedor-tabla-scroll">
+                        <table class="table table-bordered table-striped tabla-productos" style="width:100%">
+                            <thead class="sticky-header">
+                                <tr class="text-center">
+                                    <th>Nombre</th>
+                                    <th>Descripción</th>
+                                    <th>Categoría</th>
+                                    <th>Precio</th>
+                                    <th>Stock</th>
+                                    <th>Activo</th>
+                                    <th>Destacado</th>
+                                    <th>Acciones</th>
                                 </tr>
-                            }
-                        </tbody>
-                    </table>
+                            </thead>
+
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@item.Nombre</td>
+                                        <td>@item.Descripcion</td>
+                                        <td>@item.Categoria?.Nombre</td>
+                                        <td>@item.Precio.ToString("F2")</td>
+                                        <td class="text-center @(item.Stock < 20 ? "text-danger fw-bold" : "")">
+                                            @item.Stock
+                                        </td>
+                                        <td class="text-center">
+                                            @if (item.Esactivo)
+                                            {
+                                                <i class="bi bi-check-circle-fill text-success fs-4" title="Activo"></i>
+                                            }
+                                            else
+                                            {
+                                                <i class="bi bi-x-octagon-fill text-danger fs-4" title="Inactivo"></i>
+                                            }
+                                        </td>
+                                        <td class="text-center">
+                                            @if (item.Esdestacado)
+                                            {
+                                                <i class="bi bi-arrow-up-circle-fill text-success fs-4" title="Destacado"></i>
+                                            }
+                                            else
+                                            {
+                                                <i class="bi bi-arrow-down-circle-fill text-danger fs-4" title="No Destacado"></i>
+                                            }
+                                        </td>
+                                        <td>
+                                            <div class="btn-group" role="group">
+                                                <a asp-controller="Productos" asp-action="Editar" asp-route-Id="@item.Id"
+                                                   class="btn btn-sm mx-1 rounded"
+                                                   style="background-color: #003A8C; color: white;"
+                                                   title="Editar Producto">
+                                                    <i class="bi bi-pencil-square"></i>
+                                                </a>
+
+                                                <a asp-controller="Productos" asp-action="Eliminar" asp-route-Id="@item.Id"
+                                                   class="btn btn-danger btn-sm mx-1 rounded"
+                                                   title="Eliminar Producto">
+                                                    <i class="bi bi-trash3"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         }
@@ -111,7 +140,7 @@
         {
             <div class="row">
                 <div class="col-12 text-center">
-                    <p class="sin-clientes">No hay registro de Productos</p>
+                    <p class="sin-productos">No hay registro de Productos</p>
                 </div>
             </div>
         }

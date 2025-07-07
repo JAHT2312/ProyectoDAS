@@ -16,7 +16,8 @@
             font-weight: bold;
         }
 
-    .tabla-clientes th, .tabla-clientes td {
+    .tabla-clientes th,
+    .tabla-clientes td {
         vertical-align: middle;
     }
 
@@ -24,6 +25,21 @@
         color: #003399;
         font-size: 1.2rem;
         font-weight: bold;
+    }
+
+    /* ✅ Cabecera sticky */
+    .sticky-header th {
+        position: sticky;
+        top: 0;
+        background-color: #003A8C;
+        color: white;
+        z-index: 2;
+    }
+
+    /* ✅ Contenedor de tabla con scroll más alto */
+    .contenedor-tabla-scroll {
+        max-height: 600px;
+        overflow-y: auto;
     }
 </style>
 
@@ -34,6 +50,7 @@
                 <h2 style="color: #003A8C;">Clientes</h2>
             </div>
         </div>
+
         <div class="col-6">
             <a asp-controller="Clientes" asp-action="Crear"
                class="btn text-white"
@@ -48,45 +65,50 @@
         {
             <div class="row">
                 <div class="col-12">
-                    <table class="table table-bordered table-striped tabla-clientes" style="width:100%">
-                        <thead>
-                            <tr class="text-center" style="background-color: #003A8C; color: white;">
-                                <th>Nombre</th>
-                                <th>Apellido</th>
-                                <th>Correo</th>
-                                <th>Teléfono</th>
-                                <th>Dirección</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            @foreach (var item in Model)
-                            {
-                                <tr>
-                                    <td>@item.Nombres</td>
-                                    <td>@item.Apellidos</td>
-                                    <td>@item.Correo</td>
-                                    <td>@item.Telefono</td>
-                                    <td>@item.Direccion</td>
-                                    <td>
-                                        <div class="btn-group" role="group">
-                                            <a asp-controller="Clientes" asp-action="Editar" asp-route-Id="@item.Id"
-                                               class="btn btn-sm mx-1 rounded"
-                                               style="background-color: #003A8C; color: white;">
-                                                <i class="bi bi-pencil-square"></i>
-                                            </a>
-
-                                            <a asp-controller="Clientes" asp-action="Eliminar" asp-route-Id="@item.Id"
-                                               class="btn btn-danger btn-sm mx-1 rounded">
-                                                <i class="bi bi-trash3"></i>
-                                            </a>
-                                        </div>
-                                    </td>
+                    <!-- ✅ Contenedor con scroll y altura extendida -->
+                    <div class="table-responsive contenedor-tabla-scroll">
+                        <table class="table table-bordered table-striped tabla-clientes" style="width:100%">
+                            <thead class="sticky-header">
+                                <tr class="text-center">
+                                    <th>Nombre</th>
+                                    <th>Apellido</th>
+                                    <th>Correo</th>
+                                    <th>Teléfono</th>
+                                    <th>Dirección</th>
+                                    <th>Acciones</th>
                                 </tr>
-                            }
-                        </tbody>
-                    </table>
+                            </thead>
+
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@item.Nombres</td>
+                                        <td>@item.Apellidos</td>
+                                        <td>@item.Correo</td>
+                                        <td>@item.Telefono</td>
+                                        <td>@item.Direccion</td>
+                                        <td>
+                                            <div class="btn-group" role="group">
+                                                <a asp-controller="Clientes" asp-action="Editar" asp-route-Id="@item.Id"
+                                                   class="btn btn-sm mx-1 rounded"
+                                                   style="background-color: #003A8C; color: white;"
+                                                   title="Editar Cliente">
+                                                   <i class="bi bi-pencil-square"></i>
+                                                </a>
+
+                                                <a asp-controller="Clientes" asp-action="Eliminar" asp-route-Id="@item.Id"
+                                                   class="btn btn-danger btn-sm mx-1 rounded"
+                                                   title="Eliminar Cliente">
+                                                    <i class="bi bi-trash3"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         }

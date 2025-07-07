@@ -1,0 +1,187 @@
+﻿@model ProyectoDAS.Models.Orden
+@{
+    ViewData["Title"] = "Crear";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .fondo-amarillo {
+        background-color: #FFC107;
+        padding: 30px;
+        border-radius: 10px;
+    }
+
+    h2.text-info {
+        color: #003A8C;
+    }
+
+    .form-control-sm {
+        padding: .25rem .5rem;
+        font-size: .875rem;
+    }
+
+    table th, table td {
+        vertical-align: middle;
+        text-align: center;
+    }
+</style>
+
+<div class="fondo-amarillo">
+    <form method="post" asp-action="Crear">
+        <div class="border p-3">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <h2 class="text-info text-center mb-3">Nueva Orden</h2>
+
+            <div class="container">
+                <div class="row mb-2">
+                    <div class="col-md-6">
+                        <label asp-for="ClienteId" class="form-label">Cliente</label>
+                        <select asp-for="ClienteId" class="form-control form-control-sm" asp-items="ViewBag.Clientes">
+                            <option value="">-- Seleccione un cliente --</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="Direccion" class="form-label">Dirección</label>
+                        <input asp-for="Direccion" class="form-control form-control-sm" />
+                    </div>
+                </div>
+
+                <div class="row mb-2">
+                    <div class="col-md-4">
+                        <label asp-for="FechaOrden" class="form-label">Fecha Orden</label>
+                        <input asp-for="FechaOrden" class="form-control form-control-sm" />
+                    </div>
+                    <div class="col-md-4">
+                        <label asp-for="Estado" class="form-label">Estado</label>
+                        <input asp-for="Estado" class="form-control form-control-sm" value="Pendiente" readonly />
+                    </div>
+                    <div class="col-md-4">
+                        <label asp-for="MetodoPago" class="form-label">Método de Pago</label>
+                        <select asp-for="MetodoPago" class="form-control form-control-sm">
+                            <option value="">-- Seleccione --</option>
+                            <option value="Tarjeta de Credito">Tarjeta de Crédito</option>
+                            <option value="Efectivo">Efectivo</option>
+                            <option value="Yape">Yape</option>
+                            <option value="BitCoin">BitCoin</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label asp-for="EsAnulada" class="form-label">¿Anulada?</label>
+                        <div class="form-check">
+                            <input asp-for="EsAnulada" class="form-check-input" />
+                        </div>
+                    </div>
+                </div>
+
+                <hr />
+                <h5 class="text-info">Detalle de Orden</h5>
+
+                <!-- Detalle de orden -->
+                <div class="row g-2 align-items-end mb-2">
+                    <div class="col-md-5">
+                        <label for="productoSelect" class="form-label">Producto</label>
+                        <select id="productoSelect" class="form-control form-control-sm">
+                            <option value="">-- Seleccione producto --</option>
+                            @foreach (var prod in (IEnumerable<dynamic>)ViewBag.Productos)
+                            {
+                                <option value="@prod.Id" data-precio="@prod.Precio">@prod.Nombre</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="col-md-2">
+                        <label for="cantidad" class="form-label">Cantidad</label>
+                        <input type="number" id="cantidad" class="form-control form-control-sm" min="1" value="1" />
+                    </div>
+
+                    <div class="col-md-2">
+                        <label for="precioUnitario" class="form-label">Precio Unitario</label>
+                        <input type="text" id="precioUnitario" class="form-control form-control-sm" readonly />
+                    </div>
+
+                    <div class="col-md-3">
+                        <button type="button" class="btn btn-primary btn-sm" onclick="agregarDetalle()">Agregar Detalle</button>
+                    </div>
+                </div>
+
+                <table class="table table-sm table-bordered" id="tablaDetalles">
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Cantidad</th>
+                            <th>Precio Unitario</th>
+                            <th>Total</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+
+                <div class="d-grid gap-2 d-md-block mt-3">
+                    <button type="submit" class="btn text-white" style="background-color: #003399;">Crear Orden</button>
+                    <a asp-controller="Ordenes" asp-action="Index" class="btn btn-success">Regresar</a>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const productoSelect = document.getElementById("productoSelect");
+            const precioUnitarioInput = document.getElementById("precioUnitario");
+
+            if (productoSelect && precioUnitarioInput) {
+                productoSelect.addEventListener("change", function () {
+                    const selected = this.options[this.selectedIndex];
+                    const precio = selected.getAttribute("data-precio");
+                    precioUnitarioInput.value = precio ? parseFloat(precio).toFixed(2) : "";
+                });
+            }
+        });
+    </script>
+    <script>
+        const productoSelect = document.getElementById('productoSelect');
+        const cantidadInput = document.getElementById('cantidadInput');
+        const precioUnitarioInput = document.getElementById('precioUnitarioInput');
+        const tablaDetalles = document.getElementById('tablaDetalles').querySelector('tbody');
+
+        productoSelect.addEventListener('change', () => {
+            const selected = productoSelect.selectedOptions[0];
+            const precio = selected.getAttribute('data-precio');
+            precioUnitarioInput.value = precio || '';
+        });
+
+        function agregarDetalle() {
+            const productoId = productoSelect.value;
+            const productoNombre = productoSelect.options[productoSelect.selectedIndex].text;
+            const cantidad = cantidadInput.value;
+            const precioUnitario = precioUnitarioInput.value;
+
+            if (!productoId || !cantidad || !precioUnitario) return;
+
+            const total = (cantidad * precioUnitario).toFixed(2);
+
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${productoNombre}</td>
+                <td>${cantidad}</td>
+                <td>${precioUnitario}</td>
+                <td>${total}</td>
+                <td><button type="button" class="btn btn-danger btn-sm" onclick="this.closest('tr').remove()">Eliminar</button></td>
+            `;
+            tablaDetalles.appendChild(row);
+
+            // Limpiar
+            productoSelect.value = "";
+            cantidadInput.value = "";
+            precioUnitarioInput.value = "";
+        }
+    </script>
+}

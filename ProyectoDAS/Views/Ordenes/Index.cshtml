@@ -1,6 +1,6 @@
-﻿@model IEnumerable<ProyectoDAS.Models.Categoria>
+﻿@model IEnumerable<ProyectoDAS.Models.Orden>
 @{
-    ViewData["Title"] = "Categorias";
+    ViewData["Title"] = "Ordenes";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -16,18 +16,17 @@
             font-weight: bold;
         }
 
-    .tabla-categoria th,
-    .tabla-categoria td {
+    .tabla-ordenes th,
+    .tabla-ordenes td {
         vertical-align: middle;
     }
 
-    .sin-categoria {
+    .sin-ordenes {
         color: #003399;
         font-size: 1.2rem;
         font-weight: bold;
     }
 
-    /* ✅ Cabecera sticky */
     .sticky-header th {
         position: sticky;
         top: 0;
@@ -36,7 +35,6 @@
         z-index: 2;
     }
 
-    /* ✅ Contenedor de tabla con scroll más alto */
     .contenedor-tabla-scroll {
         max-height: 600px;
         overflow-y: auto;
@@ -47,62 +45,59 @@
     <div class="container">
         <div class="row pt-4">
             <div class="col-12 text-end">
-                <h2 style="color: #003A8C;">Categoria</h2>
+                <h2 style="color: #003A8C;">Ordenes</h2>
             </div>
-            <div class="col-6">
-                <a asp-controller="Categoria" asp-action="Crear"
-                   class="btn text-white"
-                   style="background-color: #003399;">Nueva Categoría</a>
-            </div>
+        </div>
+
+        <div class="col-6">
+            <a asp-controller="Ordenes" asp-action="Crear"
+               class="btn text-white"
+               style="background-color: #003399;">Nueva Orden</a>
         </div>
 
         <br />
 
-        @if (Model.Any())
+        @if (Model != null && Model.Any())
         {
             <div class="row">
                 <div class="col-12">
-                    <!-- ✅ Contenedor con scroll y altura extendida -->
                     <div class="table-responsive contenedor-tabla-scroll">
-                        <table class="table table-bordered table-striped tabla-categoria" style="width:100%">
+                        <table class="table table-bordered table-striped tabla-ordenes" style="width:100%">
                             <thead class="sticky-header">
                                 <tr class="text-center">
-                                    <th>Nombre</th>
-                                    <th>Activo</th>
-                                    <th>Fecha de Creación</th>
+                                    <th>Cliente</th>
+                                    <th>Fecha</th>
+                                    <th>Estado</th>
+                                    <th>Metodo Pago</th>
+                                    <th>Total</th>
+                                    <th>Anulada</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
-
                             <tbody>
                                 @foreach (var item in Model)
                                 {
                                     <tr>
-                                        <td>@item.Nombre</td>
+                                        <td>@(item.Cliente != null ? item.Cliente.Nombres + " " + item.Cliente.Apellidos : "Sin datos")</td>
+                                        <td>@item.FechaOrden.ToString("yyyy-MM-dd")</td>
+                                        <td>@item.Estado</td>
+                                        <td>@item.MetodoPago</td>
+                                        <td>@String.Format("{0:F2}", item.Total)</td>
                                         <td class="text-center">
-                                            @if (item.EsActivo)
-                                            {
-                                                <i class="bi bi-check-circle-fill text-success fs-4" title="Activo"></i>
-                                            }
-                                            else
-                                            {
-                                                <i class="bi bi-x-octagon-fill text-danger fs-4" title="Inactivo"></i>
-                                            }
+                                            <input type="checkbox" disabled @(item.EsAnulada ? "checked" : "") />
                                         </td>
-                                        <td>@item.FechaCreacion.ToString("dd/MM/yyyy")</td>
-
                                         <td>
                                             <div class="btn-group" role="group">
-                                                <a asp-controller="Categoria" asp-action="Editar" asp-route-Id="@item.Id"
+                                                <a asp-controller="Ordenes" asp-action="Editar" asp-route-Id="@item.Id"
                                                    class="btn btn-sm mx-1 rounded"
                                                    style="background-color: #003A8C; color: white;"
-                                                   title="Editar categoría">
+                                                   title="Editar Orden">
                                                     <i class="bi bi-pencil-square"></i>
                                                 </a>
 
-                                                <a asp-controller="Categoria" asp-action="Eliminar" asp-route-Id="@item.Id"
+                                                <a asp-controller="Ordenes" asp-action="Eliminar" asp-route-Id="@item.Id"
                                                    class="btn btn-danger btn-sm mx-1 rounded"
-                                                   title="Eliminar categoría">
+                                                   title="Eliminar Orden">
                                                     <i class="bi bi-trash3"></i>
                                                 </a>
                                             </div>
@@ -119,9 +114,10 @@
         {
             <div class="row">
                 <div class="col-12 text-center">
-                    <p class="sin-categoria">No hay registro de Categoria</p>
+                    <p class="sin-ordenes">No hay registro de Ordenes</p>
                 </div>
             </div>
         }
     </div>
 </div>
+

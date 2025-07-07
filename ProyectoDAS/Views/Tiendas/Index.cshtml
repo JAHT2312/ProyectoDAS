@@ -1,0 +1,172 @@
+﻿@{
+    ViewData["Title"] = "Tiendas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .titulo-tiendas {
+        text-align: center;
+        margin-top: 30px;
+        margin-bottom: 10px;
+        color: #003399;
+    }
+
+    .subtitulo-tiendas {
+        text-align: center;
+        font-size: 1.2rem;
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+    .contenedor-tiendas {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+        padding: 30px;
+        background-color: #FFC107;
+    }
+
+    .tarjeta-tienda {
+        background-color: #003399;
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        width: 300px;
+        overflow: hidden;
+        transition: transform 0.2s;
+    }
+
+        .tarjeta-tienda:hover {
+            transform: scale(1.02);
+        }
+
+        .tarjeta-tienda img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+
+    .contenido-tienda {
+        padding: 15px;
+    }
+
+        .contenido-tienda h5 {
+            margin-bottom: 5px;
+            color: white;
+        }
+
+        .contenido-tienda p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: white;
+        }
+
+        .contenido-tienda .ir-icono {
+            float: right;
+            font-size: 1.4rem;
+            color: #FFC107;
+            cursor: pointer;
+        }
+
+            .contenido-tienda .ir-icono:hover {
+                color: #ffdd57;
+            }
+</style>
+
+<!-- 🟦 Título principal -->
+<div style="background-color: #003399; padding: 30px 20px 20px 20px; text-align: center; margin-top: 30px;">
+    <h2 class="titulo-tiendas" style="color: #FFC107; margin-bottom: 15px;">Nuestras Tiendas</h2>
+    <p class="subtitulo-tiendas" style="color: #FFC107;">Encuentra la tienda más cercana a ti</p>
+</div>
+
+
+<!-- 🏬 Lista de tiendas -->
+<div class="contenedor-tiendas">
+    <!-- Tarjeta 1 -->
+    <div class="tarjeta-tienda">
+        <img src="~/images/tienda1.jpg" alt="Tienda 1">
+        <div class="contenido-tienda">
+            <h5>Av. Vargas Machuca 340</h5>
+            <p>VMachuca - SJM MS</p>
+            <span class="ir-icono">➡️</span>
+        </div>
+    </div>
+
+    <!-- Tarjeta 2 -->
+    <div class="tarjeta-tienda">
+        <img src="~/images/tienda2.jpg" alt="Tienda 2">
+        <div class="contenido-tienda">
+            <h5>Jr. Justo Naveda 1190</h5>
+            <p>La Cabaña - SJM MS</p>
+            <span class="ir-icono">➡️</span>
+        </div>
+    </div>
+
+    <!-- Tarjeta 3 -->
+    <div class="tarjeta-tienda">
+        <img src="~/images/tienda3.jpg" alt="Tienda 3">
+        <div class="contenido-tienda">
+            <h5>Jr. Las Gaviotas</h5>
+            <p>Villa El Contador - Surco Viejo</p>
+            <span class="ir-icono">➡️</span>
+        </div>
+    </div>
+    <!-- Tarjeta 4 - NUEVA -->
+    <div class="tarjeta-tienda">
+        <img src="~/images/tienda4.jpg" alt="Guardia Civil">
+        <div class="contenido-tienda">
+            <h5>Jr. Guardia Civil Norte</h5>
+            <p>V. Alegre (Cruce con Vista Alegre) - SC MS</p>
+            <span class="ir-icono">➡️</span>
+        </div>
+    </div>
+
+    <!-- Tarjeta 5 - NUEVA -->
+    <div class="tarjeta-tienda">
+        <img src="~/images/tienda5.jpg" alt="13 de Octubre">
+        <div class="contenido-tienda">
+            <h5>PJ. 13 de Octubre</h5>
+            <p>Al costado del Mdo. Santa Rosa - Canevaro SJM MS</p>
+            <span class="ir-icono">➡️</span>
+        </div>
+    </div>
+
+    <!-- Tarjeta 6 - NUEVA -->
+    <div class="tarjeta-tienda">
+        <img src="~/images/tienda6.jpg" alt="Valle Sharon">
+        <div class="contenido-tienda">
+            <h5>Av. Prol. César Canevaro</h5>
+            <p>Cerca al Mdo. Valle Sharon - Crédito SJM MS</p>
+            <span class="ir-icono">➡️</span>
+        </div>
+    </div>
+    <!-- Tarjeta 7 - NUEVA -->
+    <div class="tarjeta-tienda">
+        <img src="~/images/tienda7.jpg" alt="Panamericana Sur">
+        <div class="contenido-tienda">
+            <h5>Av. Antigua Panamericana Sur</h5>
+            <p>Alt. Cruce con Lurín – Pachacamac LU MS</p>
+            <span class="ir-icono">➡️</span>
+        </div>
+    </div>
+
+    <!-- Tarjeta 8 - NUEVA -->
+    <div class="tarjeta-tienda">
+        <img src="~/images/tienda8.jpg" alt="Los Próceres">
+        <div class="contenido-tienda">
+            <h5>Av. Los Próceres</h5>
+            <p>Frente a Tottus – Próceres SC MS</p>
+            <span class="ir-icono">➡️</span>
+        </div>
+    </div>
+
+    <!-- Tarjeta 9 - NUEVA -->
+    <div class="tarjeta-tienda">
+        <img src="~/images/tienda9.jpg" alt="San Martín">
+        <div class="contenido-tienda">
+            <h5>Av. San Martín</h5>
+            <p>Frente al C.C. San Pedro – SPedro CLL MS</p>
+            <span class="ir-icono">➡️</span>
+        </div>
+    </div>
+</div>

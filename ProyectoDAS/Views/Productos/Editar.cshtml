@@ -1,0 +1,99 @@
+﻿@model ProyectoDAS.Models.Productos
+@{
+    ViewData["Title"] = "Editar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .fondo-amarillo {
+        background-color: #FFC107;
+        padding: 30px;
+        border-radius: 10px;
+    }
+
+    h2.text-info {
+        color: #003A8C;
+    }
+</style>
+
+<div class="fondo-amarillo">
+
+    <form method="post" asp-action="Editar">
+        <input asp-for="Id" hidden />
+
+        <div class="border p-3">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group row mt-4 text-end">
+                <h2 class="pl-4" style="color: #003399;">Editar Producto</h2>
+            </div>
+
+            <div class="container">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label asp-for="Nombre" class="form-label">Nombre</label>
+                        <input asp-for="Nombre" class="form-control" />
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label asp-for="Descripcion" class="form-label">Descripcion</label>
+                        <input asp-for="Descripcion" class="form-control" />
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label asp-for="Precio" class="form-label">Precio</label>
+                        <input asp-for="Precio" class="form-control" />
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label asp-for="Stock" class="form-label">Stock</label>
+                        <input asp-for="Stock" class="form-control" />
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label asp-for="ImagenUrl" class="form-label">Ruta Imagen</label>
+                        <input asp-for="ImagenUrl" class="form-control" />
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label asp-for="Esactivo" class="form-label d-block">¿Está Activo?</label>
+                        <div class="form-check">
+                            <input asp-for="Esactivo" class="form-check-input" />
+                            <span asp-validation-for="Esactivo" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label asp-for="Esdestacado" class="form-label d-block">¿Es Destacado?</label>
+                        <div class="form-check">
+                            <input asp-for="Esdestacado" class="form-check-input" />
+                            <span asp-validation-for="Esdestacado" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label asp-for="CategoriaId" class="form-label">Categoría</label>
+                        <select asp-for="CategoriaId" class="form-select" asp-items="ViewBag.Categorias">
+                            <option value="">-- Seleccione una categoría --</option>
+                        </select>
+                        <span asp-validation-for="CategoriaId" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="d-grid gap-2 d-md-block">
+                    <button type="submit" class="btn text-white" style="background-color: #003399;">Editar Producto</button>
+                    <a asp-controller="Productos" asp-action="Index" class="btn btn-success">Regresar</a>
+                </div>
+
+            </div>
+        </div>
+    </form>
+</div>

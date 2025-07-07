@@ -1,0 +1,125 @@
+﻿@{
+    ViewData["Title"] = "Ofertas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@* Datos de productos *@
+@{
+    var productos = new[]
+    {
+        new { Id = 1, Nombre = "Arroz", Precio = 3.50M, Descripcion = "Arroz superior 1kg" },
+        new { Id = 2, Nombre = "Azúcar", Precio = 2.80M, Descripcion = "Azúcar rubia 1kg" },
+        new { Id = 3, Nombre = "Aceite", Precio = 7.90M, Descripcion = "Aceite vegetal 1L" },
+        new { Id = 4, Nombre = "Fideos", Precio = 2.20M, Descripcion = "Fideos tallarín 500g" },
+        new { Id = 5, Nombre = "Leche", Precio = 3.00M, Descripcion = "Leche evaporada 400ml" },
+        new { Id = 6, Nombre = "Huevos", Precio = 9.50M, Descripcion = "Docena de huevos" },
+        new { Id = 7, Nombre = "Pan", Precio = 4.00M, Descripcion = "Pan francés 10 unid." },
+        new { Id = 8, Nombre = "Sal", Precio = 1.50M, Descripcion = "Sal fina 1kg" },
+        new { Id = 9, Nombre = "Harina", Precio = 2.50M, Descripcion = "Harina sin preparar 1kg" },
+        new { Id = 10, Nombre = "Lentejas", Precio = 3.80M, Descripcion = "Lentejas 500g" },
+        new { Id = 11, Nombre = "Papel Higiénico", Precio = 5.90M, Descripcion = "Pack de 4 rollos" },
+        new { Id = 12, Nombre = "Jabón de Tocador", Precio = 2.00M, Descripcion = "Jabón neutro 125g" }
+    };
+}
+
+<style>
+    .seccion-ofertas {
+        background-color: #003399;
+        padding: 60px 20px 40px;
+    }
+
+    .titulo-ofertas {
+        color: #FFC107;
+        text-align: center;
+        margin-bottom: 10px;
+        font-size: 2rem;
+    }
+
+    .subtitulo-ofertas {
+        color: #FFC107;
+        text-align: center;
+        margin-bottom: 30px;
+        font-size: 1.1rem;
+    }
+
+    .grid-ofertas {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 20px;
+    }
+
+    .tarjeta-oferta {
+        background-color: white;
+        border-radius: 10px;
+        overflow: hidden;
+        text-align: center;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        transition: transform 0.2s;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+
+        .tarjeta-oferta:hover {
+            transform: scale(1.02);
+        }
+
+        .tarjeta-oferta .img-contenedor {
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+            padding: 10px;
+        }
+
+        .tarjeta-oferta img {
+            max-height: 100%;
+            max-width: 100%;
+            object-fit: contain;
+        }
+
+    .contenido-oferta {
+        padding: 15px;
+        flex-grow: 1;
+    }
+
+        .contenido-oferta h5 {
+            margin: 5px 0 2px;
+            color: #003399;
+            font-size: 1.1rem;
+        }
+
+        .contenido-oferta p {
+            margin: 0;
+            font-size: 0.9rem;
+        }
+
+        .contenido-oferta .precio {
+            margin-top: 8px;
+            font-weight: bold;
+            color: #FFC107;
+            font-size: 1.1rem;
+        }
+</style>
+
+<div class="seccion-ofertas">
+    <h2 class="titulo-ofertas">Ofertas Especiales</h2>
+    <p class="subtitulo-ofertas">Productos seleccionados con los mejores precios</p>
+
+    <div class="grid-ofertas">
+        @foreach (var producto in productos)
+        {
+            <div class="tarjeta-oferta">
+                <div class="img-contenedor">
+                    <img src="~/images/productos/@(producto.Id).jpg" alt="@producto.Nombre" />
+                </div>
+                <div class="contenido-oferta">
+                    <h5>@producto.Nombre</h5>
+                    <p>@producto.Descripcion</p>
+                    <p class="precio">S/. @producto.Precio.ToString("0.00")</p>
+                </div>
+            </div>
+        }
+    </div>
+</div>

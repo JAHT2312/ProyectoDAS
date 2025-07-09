@@ -1,0 +1,88 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+
+    .titulo-tiendas {
+        text-align: center;
+        margin-top: 30px;
+        margin-bottom: 10px;
+        color: #003399;
+    }
+
+    .subtitulo-tiendas {
+        text-align: left;
+        font-size: 1.5rem;
+        color: #ffffff;
+        margin-bottom: 100px;
+    }
+
+    .contenedor-tiendas {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+        padding: 30px;
+        background-color: #ffffff;
+    }
+
+    .tarjeta-tienda {
+        background-color: #003399;
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        width: 300px;
+        overflow: hidden;
+        transition: transform 0.2s;
+    }
+
+        .tarjeta-tienda:hover {
+            transform: scale(1.02);
+        }
+
+        .tarjeta-tienda img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+
+    .contenido-tienda {
+        padding: 15px;
+    }
+
+        .contenido-tienda h5 {
+            margin-bottom: 5px;
+            color: white;
+        }
+
+        .contenido-tienda p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: white;
+        }
+
+        .contenido-tienda .ir-icono {
+            float: right;
+            font-size: 1.4rem;
+            color: #FFC107;
+            cursor: pointer;
+        }
+
+            .contenido-tienda .ir-icono:hover {
+                color: #ffdd57;
+            }
+</style>
+
+<!-- 🟦 Título principal -->
+<div style="background-color: #003399; padding: 30px 20px 20px 20px; text-align: center; margin-top: 30px;">
+    <h2 class="titulo-tiendas" style="color: #FFC107; margin-bottom: 15px;">Nuestra Historia</h2>
+    <p class="subtitulo-tiendas" style="color: #FFFFFF;">La tienda peruana Mass nació como parte de un ambicioso proyecto del grupo económico Intercorp, con el propósito de acercar productos de 
+        primera necesidad a las familias peruanas mediante un formato de supermercado de hard discount o precios bajos garantizados. Desde su apertura en el año 2015, Mass ha experimentado un notable crecimiento, consolidándose 
+        como una de las cadenas minoristas más importantes del país. Inspirada en un modelo de negocio ágil y eficiente, esta marca busca ofrecer un surtido de productos cuidadosamente seleccionados que permitan a sus clientes encontrar lo indispensable para el hogar a precios altamente competitivos. Gracias a su expansión progresiva por diversas regiones del Perú, Mass ha logrado fortalecer su presencia en los barrios y comunidades, impulsando la economía local y 
+        reafirmando su compromiso de brindar calidad, cercanía y ahorro a miles de familias peruanas.</p>
+    <iframe width="750" height="450" src="https://www.youtube.com/embed/LR0SH_f8LJI?si=x9KEnNMQrfR_HyTP" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</div>
+
+

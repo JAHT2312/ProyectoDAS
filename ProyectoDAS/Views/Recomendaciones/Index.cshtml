@@ -1,0 +1,294 @@
+﻿@{
+    ViewData["Title"] = "Recomendaciones";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using Microsoft.AspNetCore.Mvc.Rendering
+
+<style>
+    .zona-amarrilla {
+        background-color: #FFC107;
+        min-height: 100vh;
+        padding: 40px 20px;
+    }
+
+        .zona-amarrilla h2 {
+            color: #003399;
+            font-weight: bold;
+        }
+
+    .sin-recomendaciones {
+        color: #003399;
+        font-size: 1.2rem;
+        font-weight: bold;
+    }
+
+    .orden-header {
+        background-color: #003A8C;
+        color: white;
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+    .tabla-detalles th, .tabla-detalles td {
+        vertical-align: middle;
+    }
+
+    .tabla-detalles {
+        margin-bottom: 30px;
+    }
+
+    .ordenes-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 20px;
+    }
+
+    .detalle-small {
+        font-size: 0.85rem;
+    }
+    .tabla-recomendaciones th,
+    .tabla-recomendaciones td {
+        font-size: 0.85rem;
+        color: #003399;
+    }
+
+    .markdown-table-wrapper {
+        border-radius: 10px;
+        overflow: hidden;
+        margin-top: 15px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        max-width: 600px; /* Hace que la tabla sea más angosta */
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .markdown-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.75rem; /* MÁS PEQUEÑA */
+        color: #003399;
+    }
+
+        .markdown-table th,
+        .markdown-table td {
+            border: 1px solid #003399;
+            padding: 6px 8px; /* Espaciado más compacto */
+            text-align: center;
+        }
+
+        .markdown-table th {
+            background-color: #e6f0ff;
+            font-weight: bold;
+        }
+</style>
+
+<div class="zona-amarrilla">
+    <div class="container">
+        <div class="row pt-4">
+            <div class="col-12 text-end">
+                <h2 style="color: #003A8C;">Recomendaciones</h2>
+            </div>
+        </div>
+
+        <div class="text-center mt-3">
+            <button id="btnGenerarRecomendacion" class="btn btn-success" disabled>
+                Generar Recomendación
+            </button>
+        </div>
+
+        <div id="recomendacionIA" class="mt-4 text-center" style="color:#003399; font-weight:bold;"></div>
+
+        <!-- Botón Enviar al Carrito (oculto inicialmente) -->
+        <div class="text-center mt-3">
+            <button id="btnEnviarAlCarrito" class="btn btn-success d-none">
+                Enviar al Carrito
+            </button>
+        </div>
+
+        <!-- Combo de clientes -->
+        <div class="row mb-3">
+            <div class="col-md-6 offset-md-3">
+                <label for="clienteSelect" class="form-label" style="color: #003399; font-weight: bold;">Seleccione un Cliente</label>
+                <select id="clienteSelect" class="form-select">
+                    <option value="">-- Seleccione --</option>
+                    @if (ViewBag.Clientes is List<SelectListItem> listaClientes)
+                    {
+                        foreach (var cliente in listaClientes)
+                        {
+                            <option value="@cliente.Value">@cliente.Text</option>
+                        }
+                    }
+                </select>
+            </div>
+        </div>
+
+        <!-- Contenedor de órdenes procesadas y detalles -->
+        <div id="ordenesCliente" class="ordenes-grid mt-4"></div>
+
+        <!-- Mensaje si no hay resultados -->
+        <div class="row">
+            <div class="col-12 text-center">
+                <p id="mensajeSinRecomendaciones" class="sin-recomendaciones">No hay registro de Recomendaciones</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        const clienteSelect = document.getElementById("clienteSelect");
+        const contenedor = document.getElementById("ordenesCliente");
+        const mensaje = document.getElementById("mensajeSinRecomendaciones");
+        const recomendacionDiv = document.getElementById("recomendacionIA");
+        const btn = document.getElementById("btnGenerarRecomendacion");
+
+        clienteSelect.addEventListener("change", function () {
+            const clienteId = this.value;
+            contenedor.innerHTML = "";
+            mensaje.style.display = "none";
+            recomendacionDiv.innerHTML = "";
+            btn.disabled = !clienteId;
+
+            if (clienteId) {
+                fetch(`/Recomendaciones/ObtenerOrdenesProcesadas/${clienteId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.length > 0) {
+                            let html = "";
+
+                            data.forEach(orden => {
+                                html += `
+                                    <div class="mb-3 p-3 border rounded shadow-sm bg-white">
+                                        <div class="orden-header">
+                                            <strong>Fecha Orden:</strong> ${orden.fechaOrden} &nbsp;&nbsp;
+                                            <strong>Total:</strong> S/ ${orden.total.toFixed(2)}
+                                        </div>
+
+                                        <table class="table table-bordered table-sm tabla-detalles mt-3">
+                                            <thead class="table-light text-center">
+                                                <tr>
+                                                    <th>Producto</th>
+                                                    <th>Cantidad</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>`;
+
+                                orden.detalles.forEach(det => {
+                                    html += `
+                                        <tr class="text-center detalle-small">
+                                            <td>${det.nombreProducto}</td>
+                                            <td>${det.cantidad}</td>
+                                        </tr>`;
+                                });
+
+                                html += `</tbody></table></div>`;
+                            });
+
+                            contenedor.innerHTML = html;
+                        } else {
+                            mensaje.style.display = "block";
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error:", error);
+                        mensaje.style.display = "block";
+                        contenedor.innerHTML = "<p class='text-danger'>Error al obtener las órdenes.</p>";
+                    });
+            } else {
+                mensaje.style.display = "block";
+            }
+        });
+
+        btn.addEventListener("click", () => {
+            const clienteId = clienteSelect.value;
+            if (!clienteId) return;
+
+            recomendacionDiv.innerHTML = "Generando recomendación... ⏳";
+
+            fetch('/Recomendaciones/GenerarRecomendacion', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(clienteId)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    recomendacionDiv.innerHTML = `
+                        <div class="alert alert-danger">
+                            <strong>Error:</strong> ${data.mensaje}<br/>
+                            <small>${data.detalle}</small>
+                        </div>`;
+                } else {
+                    const markdown = data.recomendacion;
+                    const tablaHTML = markdownToHTMLTable(markdown);
+
+                    recomendacionDiv.innerHTML = `
+                        <div class="mt-4">
+                            <h5 style="color:#003399;">Productos Recomendados:</h5>
+                            <div class="table-responsive">${tablaHTML}</div>
+                        </div>
+                    `;
+                     // Mostrar el botón "Enviar al Carrito"
+                    document.getElementById("btnEnviarAlCarrito").classList.remove("d-none");
+                }
+            })
+            .catch(error => {
+                console.error(error);
+                recomendacionDiv.innerHTML = "<p class='text-danger'>Error al generar recomendación.</p>";
+            });
+        });
+
+        function markdownToHTMLTable(markdown) {
+            const lines = markdown.trim().split('\n');
+            if (lines.length < 3) return '<p>No hay datos para mostrar.</p>';
+
+            let html = `
+                <div class="markdown-table-wrapper p-3 rounded border border-primary bg-white shadow-sm">
+                    <table class="table table-sm table-bordered markdown-table mb-0">
+                        <thead class="table-light text-center">
+                            <tr>
+            `;
+
+            const headers = lines[0].split('|').map(h => h.trim()).filter(h => h);
+            headers.forEach(h => {
+                html += `<th>${h}</th>`;
+            });
+
+            html += `
+                            </tr>
+                        </thead>
+                        <tbody class="text-center">
+            `;
+
+            for (let i = 2; i < lines.length; i++) {
+                const row = lines[i].split('|').map(c => c.trim()).filter(c => c);
+                if (row.length === headers.length) {
+                    html += '<tr>';
+                    row.forEach(cell => {
+                        html += `<td>${cell}</td>`;
+                    });
+                    html += '</tr>';
+                }
+            }
+
+            html += `
+                        </tbody>
+                    </table>
+                </div>
+            `;
+
+            return html;
+        }
+
+
+    </script>
+
+    <style>
+        .tabla-recomendaciones td,
+        .tabla-recomendaciones th {
+            font-size: 0.85rem;
+            color: #003399;
+        }
+    </style>
+}
+

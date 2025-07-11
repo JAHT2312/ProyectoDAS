@@ -1,0 +1,173 @@
+﻿@model List<ProyectoDAS.Models.ProductoRecomendado>
+
+@{
+    ViewData["Title"] = "Carrito Inteligente";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<nav aria-label="breadcrumb" class="bg-white py-2 shadow-sm mb-4">
+    <div class="container">
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a href="/">Inicio</a></li>
+            <li class="breadcrumb-item"><a href="/Products">Productos</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Carrito de Compras</li>
+        </ol>
+    </div>
+</nav>
+
+<section class="py-5" style="background-color: #f0f0f0;">
+    <div class="container">
+        <div class="row gx-4">
+            <!-- 🛒 Carrito -->
+            <div class="col-lg-8">
+                <div class="alert alert-success d-flex align-items-center mb-4" role="alert">
+                    <i class="bi bi-cash-stack fs-3 me-3"></i>
+                    <div>
+                        <h4 class="alert-heading mb-1">¡Ahorro Detectado!</h4>
+                        <p class="mb-0">Tu carrito inteligente está ahorrando comparado con supermercados tradicionales.</p>
+                    </div>
+                </div>
+
+                <div class="card shadow-sm mb-4">
+                    <div class="card-body">
+                        <h3 class="card-title mb-3">
+                            <i class="bi bi-cart3 me-2 text-primary"></i> Tu Carrito Inteligente
+                        </h3>
+                        <p class="text-muted mb-4">
+                            <i class="bi bi-robot me-1"></i> Optimizado con inteligencia artificial para maximizar tu ahorro
+                        </p>
+
+                        @if (Model != null && Model.Any())
+                        {
+                            <div id="carritoProductos" class="list-group">
+                                @for (int i = 0; i < Model.Count; i++)
+                                {
+                                    var producto = Model[i];
+                                    <div class="list-group-item d-flex align-items-center py-3 producto-item" data-index="@i" data-precio="@producto.Precio">
+                                        <div class="flex-grow-1">
+                                            <h5 class="mb-1">@producto.NombreProducto</h5>
+                                            <small class="text-muted d-block">Producto sugerido por IA</small>
+                                            <small class="text-success"><i class="bi bi-check-circle me-1"></i>Disponible</small>
+                                        </div>
+
+                                        <div class="d-flex align-items-center me-4">
+                                            <button class="btn btn-outline-primary btn-sm btn-restar">−</button>
+                                            <input type="number" class="form-control form-control-sm text-center cantidad-input mx-1" value="@producto.Cantidad" min="1" style="width: 50px;">
+                                            <button class="btn btn-outline-primary btn-sm btn-sumar">+</button>
+                                        </div>
+
+                                        <div class="text-end me-4">
+                                            <div>S/ @producto.Precio.ToString("F2") <small class="text-muted">c/u</small></div>
+                                            <div class="fw-bold text-success subtotal-item">S/ @(producto.Precio* producto.Cantidad).ToString("F2")</div>
+                                        </div>
+
+                                        <button class="btn btn-outline-danger btn-sm btn-eliminar">
+                                            <i class="bi bi-trash-fill"></i>
+                                        </button>
+                                    </div>
+                                }
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="alert alert-info text-center mb-0">No hay productos en el carrito aún.</div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <!-- 🧾 RESUMEN -->
+            <div class="col-lg-4">
+                <div class="card shadow-sm mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <i class="bi bi-list-check me-2 text-primary"></i> Resumen del Pedido
+                        </h5>
+
+                        <ul class="list-unstyled mb-3">
+                            <li>Subtotal: <span class="float-end" id="resumenSubtotal">S/ 0.00</span></li>
+                            <li class="text-success">Descuento IA (10%): <span class="float-end" id="resumenDescuento">S/ 0.00</span></li>
+                            <li>Delivery: <span class="float-end text-success">¡GRATIS!</span></li>
+                            <li>IGV (18%): <span class="float-end" id="resumenIGV">S/ 0.00</span></li>
+                        </ul>
+                        <hr>
+                        <h4 class="fw-bold">
+                            Total: <span class="float-end" id="resumenTotal">S/ 0.00</span>
+                        </h4>
+                        <p class="small text-success mb-3">
+                            Ahorras <span id="resumenAhorro">S/ 0.00</span> gracias a la IA.
+                        </p>
+                        <button class="btn btn-success w-100 mb-2">PROCEDER AL PAGO</button>
+                        <div class="alert alert-light mb-4" role="alert">
+                            Compra 100% Segura
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    function recalcularResumen() {
+        let subtotal = 0;
+        document.querySelectorAll(".producto-item").forEach(item => {
+            const precio = parseFloat(item.dataset.precio);
+            const cantidad = parseInt(item.querySelector(".cantidad-input").value);
+            const sub = precio * cantidad;
+            item.querySelector(".subtotal-item").innerText = `S/ ${sub.toFixed(2)}`;
+            subtotal += sub;
+        });
+
+        const descuento = subtotal * 0.10;
+        const igv = (subtotal - descuento) * 0.18;
+        const total = subtotal - descuento + igv;
+
+        document.getElementById("resumenSubtotal").innerText = `S/ ${subtotal.toFixed(2)}`;
+        document.getElementById("resumenDescuento").innerText = `S/ ${descuento.toFixed(2)}`;
+        document.getElementById("resumenIGV").innerText = `S/ ${igv.toFixed(2)}`;
+        document.getElementById("resumenTotal").innerText = `S/ ${total.toFixed(2)}`;
+        document.getElementById("resumenAhorro").innerText = `S/ ${descuento.toFixed(2)}`;
+    }
+
+    // Incrementar cantidad
+    document.querySelectorAll(".btn-sumar").forEach(btn => {
+        btn.addEventListener("click", function () {
+            const input = this.parentElement.querySelector(".cantidad-input");
+            input.value = parseInt(input.value) + 1;
+            recalcularResumen();
+        });
+    });
+
+    // Decrementar cantidad
+    document.querySelectorAll(".btn-restar").forEach(btn => {
+        btn.addEventListener("click", function () {
+            const input = this.parentElement.querySelector(".cantidad-input");
+            if (parseInt(input.value) > 1) {
+                input.value = parseInt(input.value) - 1;
+                recalcularResumen();
+            }
+        });
+    });
+
+    // Cambiar manualmente
+    document.querySelectorAll(".cantidad-input").forEach(input => {
+        input.addEventListener("change", function () {
+            if (parseInt(this.value) < 1) this.value = 1;
+            recalcularResumen();
+        });
+    });
+
+    // Eliminar producto
+    document.querySelectorAll(".btn-eliminar").forEach(btn => {
+        btn.addEventListener("click", function () {
+            const productoItem = this.closest(".producto-item");
+            productoItem.remove();
+            recalcularResumen();
+        });
+    });
+
+    // Inicial
+    recalcularResumen();
+</script>
+

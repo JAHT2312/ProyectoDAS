@@ -1,29 +1,32 @@
-﻿using System.Net.NetworkInformation;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using ProyectoDAS.Datos;
 using ProyectoDAS.Models;
-using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Text.Json;
 
 namespace ProyectoDAS.Controllers
 {
     public class RecomendacionesController : Controller
     {
         private readonly ApplicationDbContext _db;
+        private readonly string _apiKey;
 
-        public RecomendacionesController(ApplicationDbContext db)
+        public RecomendacionesController(ApplicationDbContext db, IOptions<OpenAISettings> openAIOptions)
         {
             _db = db;
+            _apiKey = openAIOptions.Value.ApiKey;
         }
+
         public IActionResult Index()
         {
-
             var clientes = _db.Clientes
-            .Select(c => new SelectListItem
-            {
-                Value = c.Id.ToString(),
-                Text = c.Nombres + " " + c.Apellidos
-            }).ToList();
+                .Select(c => new SelectListItem
+                {
+                    Value = c.Id.ToString(),
+                    Text = c.Nombres + " " + c.Apellidos
+                }).ToList();
 
             ViewBag.Clientes = clientes;
             return View();
@@ -68,6 +71,7 @@ namespace ProyectoDAS.Controllers
 
             return Json(ordenes);
         }
+
         [HttpPost]
         public async Task<IActionResult> GenerarRecomendacion([FromBody] int clienteId)
         {
@@ -104,32 +108,31 @@ namespace ProyectoDAS.Controllers
             var listaProductosDisponibles = string.Join("\n", productosDisponibles);
 
             var prompt = $@"
-                Estas son las compras recientes de un cliente:
+                    Estas son las compras recientes de un cliente:
 
-                {listaProductosComprados}
+                    {listaProductosComprados}
 
-                Y estos son los productos disponibles actualmente para vender:
+                    Y estos son los productos disponibles actualmente para vender:
 
-                {listaProductosDisponibles}
+                    {listaProductosDisponibles}
 
-                Recomienda entre 3 a 5 productos que el cliente podría comprar, basándote en productos similares o complementarios. Solo recomienda productos disponibles y que aún no haya comprado.
+                    Recomienda entre 3 a 5 productos que el cliente podría comprar, basándote en productos similares o complementarios. Solo recomienda productos disponibles y que aún no haya comprado.
 
-                👉 Por favor, responde en una tabla Markdown **exactamente en este formato**:
+                    👉 Por favor, responde en una tabla Markdown **exactamente en este formato**:
 
-                | ID Producto | Nombre Producto |
-                |-------------|-----------------|
-                | 12          | Café Premium    |
-                | 34          | Té Verde        |
+                    | ID Producto | Nombre Producto |
+                    |-------------|-----------------|
+                    | 12          | Café Premium    |
+                    | 34          | Té Verde        |
 
-                Asegúrate que la primera columna sea el **ID del producto (número)** y la segunda columna sea el **nombre del producto (texto)**. No inviertas el orden.
-                ";
+                    Asegúrate que la primera columna sea el **ID del producto (número)** y la segunda columna sea el **nombre del producto (texto)**. No inviertas el orden.
+                    ";
 
-
-            var apiKey = "sk-9CTpuOhYzQ91eNlyffgYfiZVqFO6ZcE5zdB1W0M6XMT3BlbkFJStygxep8QvpBm8SBCnDua7uVgPAyaluNo5PnWW9rQA"; // ⚠️ No olvides reemplazar por tu clave
             var httpClient = new HttpClient();
-            httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {apiKey}");
-            Console.WriteLine("📤 PROMPT ENVIADO:");
-            Console.WriteLine(prompt);
+            httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {_apiKey}");
+            Console.WriteLine("✅ API KEY USADA: " + _apiKey);
+
+
             var requestBody = new
             {
                 model = "gpt-3.5-turbo",
@@ -140,13 +143,12 @@ namespace ProyectoDAS.Controllers
                 temperature = 0.7
             };
 
-            var content = new StringContent(System.Text.Json.JsonSerializer.Serialize(requestBody), System.Text.Encoding.UTF8, "application/json");
+            var content = new StringContent(JsonSerializer.Serialize(requestBody), System.Text.Encoding.UTF8, "application/json");
             var response = await httpClient.PostAsync("https://api.openai.com/v1/chat/completions", content);
             var responseString = await response.Content.ReadAsStringAsync();
 
-            var json = System.Text.Json.JsonDocument.Parse(responseString);
-            Console.WriteLine("📥 RESPUESTA OPENAI:");
-            Console.WriteLine(responseString);
+            var json = JsonDocument.Parse(responseString);
+
             if (!json.RootElement.TryGetProperty("choices", out var choices))
             {
                 return Json(new
@@ -164,6 +166,5 @@ namespace ProyectoDAS.Controllers
                 recomendacion = recommendation
             });
         }
-
     }
 }

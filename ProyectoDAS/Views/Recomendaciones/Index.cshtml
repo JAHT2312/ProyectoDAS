@@ -134,154 +134,188 @@
     </div>
 </div>
 
-@section Scripts {
-    <script>
-        const clienteSelect = document.getElementById("clienteSelect");
-        const contenedor = document.getElementById("ordenesCliente");
-        const mensaje = document.getElementById("mensajeSinRecomendaciones");
-        const recomendacionDiv = document.getElementById("recomendacionIA");
-        const btn = document.getElementById("btnGenerarRecomendacion");
+// ✅ Script completo para Recomendaciones/Index.cshtml
 
-        clienteSelect.addEventListener("change", function () {
-            const clienteId = this.value;
-            contenedor.innerHTML = "";
-            mensaje.style.display = "none";
-            recomendacionDiv.innerHTML = "";
-            btn.disabled = !clienteId;
+<script>
+    const clienteSelect = document.getElementById("clienteSelect");
+    const contenedor = document.getElementById("ordenesCliente");
+    const mensaje = document.getElementById("mensajeSinRecomendaciones");
+    const recomendacionDiv = document.getElementById("recomendacionIA");
+    const btn = document.getElementById("btnGenerarRecomendacion");
+    const btnEnviar = document.getElementById("btnEnviarAlCarrito");
 
-            if (clienteId) {
-                fetch(`/Recomendaciones/ObtenerOrdenesProcesadas/${clienteId}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.length > 0) {
-                            let html = "";
+    clienteSelect.addEventListener("change", function () {
+        const clienteId = this.value;
+        contenedor.innerHTML = "";
+        mensaje.style.display = "none";
+        recomendacionDiv.innerHTML = "";
+        btn.disabled = !clienteId;
 
-                            data.forEach(orden => {
+        if (clienteId) {
+            fetch(`/Recomendaciones/ObtenerOrdenesProcesadas/${clienteId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.length > 0) {
+                        let html = "";
+
+                        data.forEach(orden => {
+                            html += `
+                                <div class="mb-3 p-3 border rounded shadow-sm bg-white">
+                                    <div class="orden-header">
+                                        <strong>Fecha Orden:</strong> ${orden.fechaOrden} &nbsp;&nbsp;
+                                        <strong>Total:</strong> S/ ${orden.total.toFixed(2)}
+                                    </div>
+
+                                    <table class="table table-bordered table-sm tabla-detalles mt-3">
+                                        <thead class="table-light text-center">
+                                            <tr>
+                                                <th>Producto</th>
+                                                <th>Cantidad</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>`;
+
+                            orden.detalles.forEach(det => {
                                 html += `
-                                    <div class="mb-3 p-3 border rounded shadow-sm bg-white">
-                                        <div class="orden-header">
-                                            <strong>Fecha Orden:</strong> ${orden.fechaOrden} &nbsp;&nbsp;
-                                            <strong>Total:</strong> S/ ${orden.total.toFixed(2)}
-                                        </div>
-
-                                        <table class="table table-bordered table-sm tabla-detalles mt-3">
-                                            <thead class="table-light text-center">
-                                                <tr>
-                                                    <th>Producto</th>
-                                                    <th>Cantidad</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>`;
-
-                                orden.detalles.forEach(det => {
-                                    html += `
-                                        <tr class="text-center detalle-small">
-                                            <td>${det.nombreProducto}</td>
-                                            <td>${det.cantidad}</td>
-                                        </tr>`;
-                                });
-
-                                html += `</tbody></table></div>`;
+                                    <tr class="text-center detalle-small">
+                                        <td>${det.nombreProducto}</td>
+                                        <td>${det.cantidad}</td>
+                                    </tr>`;
                             });
 
-                            contenedor.innerHTML = html;
-                        } else {
-                            mensaje.style.display = "block";
-                        }
-                    })
-                    .catch(error => {
-                        console.error("Error:", error);
+                            html += `</tbody></table></div>`;
+                        });
+
+                        contenedor.innerHTML = html;
+                    } else {
                         mensaje.style.display = "block";
-                        contenedor.innerHTML = "<p class='text-danger'>Error al obtener las órdenes.</p>";
-                    });
+                    }
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    mensaje.style.display = "block";
+                    contenedor.innerHTML = "<p class='text-danger'>Error al obtener las órdenes.</p>";
+                });
+        } else {
+            mensaje.style.display = "block";
+        }
+    });
+
+    btn.addEventListener("click", () => {
+        const clienteId = clienteSelect.value;
+        if (!clienteId) return;
+
+        recomendacionDiv.innerHTML = "Generando recomendación... ⏳";
+
+        fetch('/Recomendaciones/GenerarRecomendacion', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(clienteId)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                recomendacionDiv.innerHTML = `
+                    <div class="alert alert-danger">
+                        <strong>Error:</strong> ${data.mensaje}<br/>
+                        <small>${data.detalle}</small>
+                    </div>`;
             } else {
-                mensaje.style.display = "block";
+                const markdown = data.recomendacion;
+                const tablaHTML = markdownToHTMLTable(markdown);
+
+                recomendacionDiv.innerHTML = `
+                    <div class="mt-4">
+                        <h5 style="color:#003399;">Productos Recomendados:</h5>
+                        <div class="table-responsive">${tablaHTML}</div>
+                    </div>
+                `;
+                btnEnviar.classList.remove("d-none");
+            }
+        })
+        .catch(error => {
+            console.error(error);
+            recomendacionDiv.innerHTML = "<p class='text-danger'>Error al generar recomendación.</p>";
+        });
+    });
+
+    btnEnviar.addEventListener("click", function () {
+        const table = document.querySelector(".markdown-table");
+        if (!table) return;
+
+        const rows = table.querySelectorAll("tbody tr");
+        const productos = [];
+
+        rows.forEach(row => {
+            const cells = row.querySelectorAll("td");
+            if (cells.length >= 2) {
+                productos.push({
+                    IdProducto: parseInt(cells[0].innerText.trim()),
+                    NombreProducto: cells[1].innerText.trim()
+                });
             }
         });
 
-        btn.addEventListener("click", () => {
-            const clienteId = clienteSelect.value;
-            if (!clienteId) return;
+        fetch('/CarritoInteligente/GuardarProductos', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(productos)
+        })
+        .then(response => {
+            if (response.ok) {
+                window.location.href = '/CarritoInteligente/Index';
+            } else {
+                alert("Error al enviar productos al carrito.");
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert("Error al procesar la solicitud.");
+        });
+    });
 
-            recomendacionDiv.innerHTML = "Generando recomendación... ⏳";
+    function markdownToHTMLTable(markdown) {
+        const lines = markdown.trim().split('\n');
+        if (lines.length < 3) return '<p>No hay datos para mostrar.</p>';
 
-            fetch('/Recomendaciones/GenerarRecomendacion', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(clienteId)
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.error) {
-                    recomendacionDiv.innerHTML = `
-                        <div class="alert alert-danger">
-                            <strong>Error:</strong> ${data.mensaje}<br/>
-                            <small>${data.detalle}</small>
-                        </div>`;
-                } else {
-                    const markdown = data.recomendacion;
-                    const tablaHTML = markdownToHTMLTable(markdown);
+        let html = `
+            <div class="markdown-table-wrapper p-3 rounded border border-primary bg-white shadow-sm">
+                <table class="table table-sm table-bordered markdown-table mb-0">
+                    <thead class="table-light text-center">
+                        <tr>
+        `;
 
-                    recomendacionDiv.innerHTML = `
-                        <div class="mt-4">
-                            <h5 style="color:#003399;">Productos Recomendados:</h5>
-                            <div class="table-responsive">${tablaHTML}</div>
-                        </div>
-                    `;
-                     // Mostrar el botón "Enviar al Carrito"
-                    document.getElementById("btnEnviarAlCarrito").classList.remove("d-none");
-                }
-            })
-            .catch(error => {
-                console.error(error);
-                recomendacionDiv.innerHTML = "<p class='text-danger'>Error al generar recomendación.</p>";
-            });
+        const headers = lines[0].split('|').map(h => h.trim()).filter(h => h);
+        headers.forEach(h => {
+            html += `<th>${h}</th>`;
         });
 
-        function markdownToHTMLTable(markdown) {
-            const lines = markdown.trim().split('\n');
-            if (lines.length < 3) return '<p>No hay datos para mostrar.</p>';
+        html += `
+                        </tr>
+                    </thead>
+                    <tbody class="text-center">
+        `;
 
-            let html = `
-                <div class="markdown-table-wrapper p-3 rounded border border-primary bg-white shadow-sm">
-                    <table class="table table-sm table-bordered markdown-table mb-0">
-                        <thead class="table-light text-center">
-                            <tr>
-            `;
-
-            const headers = lines[0].split('|').map(h => h.trim()).filter(h => h);
-            headers.forEach(h => {
-                html += `<th>${h}</th>`;
-            });
-
-            html += `
-                            </tr>
-                        </thead>
-                        <tbody class="text-center">
-            `;
-
-            for (let i = 2; i < lines.length; i++) {
-                const row = lines[i].split('|').map(c => c.trim()).filter(c => c);
-                if (row.length === headers.length) {
-                    html += '<tr>';
-                    row.forEach(cell => {
-                        html += `<td>${cell}</td>`;
-                    });
-                    html += '</tr>';
-                }
+        for (let i = 2; i < lines.length; i++) {
+            const row = lines[i].split('|').map(c => c.trim()).filter(c => c);
+            if (row.length === headers.length) {
+                html += '<tr>';
+                row.forEach(cell => {
+                    html += `<td>${cell}</td>`;
+                });
+                html += '</tr>';
             }
-
-            html += `
-                        </tbody>
-                    </table>
-                </div>
-            `;
-
-            return html;
         }
 
+        html += `
+                    </tbody>
+                </table>
+            </div>
+        `;
 
-    </script>
+        return html;
+    }
+</script>
 
     <style>
         .tabla-recomendaciones td,

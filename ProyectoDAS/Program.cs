@@ -1,7 +1,8 @@
 // Imports necesarios:
-using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using Microsoft.EntityFrameworkCore;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using ProyectoDAS.Datos;
+using ProyectoDAS.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +15,11 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
         ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection"))
     )
 );
+
+//Prueba
 builder.Services.AddControllersWithViews();
+
+builder.Services.Configure<OpenAISettings>(builder.Configuration.GetSection("OpenAI"));
 
 var app = builder.Build();
 

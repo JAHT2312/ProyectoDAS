@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ProyectoDAS.Datos;
@@ -6,6 +7,7 @@ using ProyectoDAS.Models;
 
 namespace ProyectoDAS.Controllers
 {
+    [Authorize]
     public class OrdenesController : Controller
     {
         private readonly ApplicationDbContext _db;
@@ -14,7 +16,7 @@ namespace ProyectoDAS.Controllers
         {
             _db = db;
         }
-
+        [Authorize]
         public IActionResult Index()
         {
             // 🔧 Incluimos al cliente relacionado con cada orden
@@ -24,7 +26,7 @@ namespace ProyectoDAS.Controllers
 
             return View(lista);
         }
-
+        [Authorize]
         public IActionResult Crear()
         {
             // 🔸 Combo de Clientes

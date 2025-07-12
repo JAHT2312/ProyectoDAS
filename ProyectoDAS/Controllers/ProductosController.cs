@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ProyectoDAS.Datos;
@@ -6,6 +7,7 @@ using ProyectoDAS.Models;
 
 namespace ProyectoDAS.Controllers
 {
+    [Authorize]
     public class ProductosController : Controller
     {
         private readonly ApplicationDbContext _db;
@@ -14,7 +16,7 @@ namespace ProyectoDAS.Controllers
         {
             _db = db;
         }
-
+        [Authorize]
         public IActionResult Index()
         {
             var lista = _db.Productos
@@ -23,6 +25,7 @@ namespace ProyectoDAS.Controllers
 
             return View(lista);
         }
+        [Authorize]
         public IActionResult Crear()
         {
             var categoriasActivas = _db.Categoria
@@ -36,6 +39,7 @@ namespace ProyectoDAS.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public IActionResult Crear(Productos productos)
         {
             if (ModelState.IsValid)
@@ -55,6 +59,7 @@ namespace ProyectoDAS.Controllers
         }
 
         //Editar
+        [Authorize]
         public IActionResult Editar(int? id)
         {
             if (id == null || id == 0)
@@ -96,6 +101,7 @@ namespace ProyectoDAS.Controllers
 
         //Eliminar
         //Get
+        [Authorize]
         public IActionResult Eliminar(int? id)
         {
             if (id == null || id == 0)

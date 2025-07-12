@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using ProyectoDAS.Datos;
@@ -8,6 +9,7 @@ using System.Text.Json;
 
 namespace ProyectoDAS.Controllers
 {
+
     public class RecomendacionesController : Controller
     {
         private readonly ApplicationDbContext _db;

@@ -33,6 +33,7 @@
 
                 @* Ítems colapsables *@
                 <div class="collapse navbar-collapse" id="mainNavbar">
+                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between flex-row-reverse"><partial name="_LoginPartial" />
                     @* Enlaces principales a la izquierda *@
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item fs-5 fw-normal">
@@ -74,21 +75,10 @@
                     </ul>
 
                     @* Formulario de búsqueda centrado-izquierda *@
-                    <form class="d-flex me-3" role="search">
-                        <input class="form-control" type="search"
-                               placeholder="Buscar Productos…" aria-label="Search">
-                        <button class="btn btn-light ms-2" type="submit">
-                            <i class="bi bi-search"></i>
-                        </button>
-                    </form>
+                 
 
                     @* Botón de Ingresar y carrito a la derecha *@
-                    <div class="d-flex align-items-center">
-                        <a class="btn btn-light me-2" href="#">
-                            <i class="bi bi-person"></i> Ingresar
-                        </a>
-                       
-                    </div>
+                   
                 </div>
             </div>
         </nav>
@@ -171,7 +161,7 @@
         </div>
 
         <!-- Botón flotante del carrito -->
-        <a asp-area="" asp-controller="Carrito" asp-action="Index"
+        <a asp-area="" asp-controller="CarritoInteligente" asp-action="Index"
            class="btn btn-warning rounded-circle shadow-lg position-fixed d-flex align-items-center justify-content-center"
            style="bottom: 1rem; right: 1rem; width: 60px; height: 60px; z-index: 1050;">
 

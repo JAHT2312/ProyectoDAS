@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using ProyectoDAS.Datos;
 using ProyectoDAS.Models;
 
 namespace ProyectoDAS.Controllers
 {
+    [Authorize]
     public class ClientesController : Controller
     {
         private readonly ApplicationDbContext _db;
@@ -12,12 +14,13 @@ namespace ProyectoDAS.Controllers
         {
             _db = db;
         }
-
+        
         public IActionResult Index()
         {
             IEnumerable<Clientes> lista = _db.Clientes;
             return View(lista);
         }
+        [Authorize]
         public IActionResult Crear()
         {
             return View();
@@ -36,6 +39,7 @@ namespace ProyectoDAS.Controllers
         }
 
         //Editar
+        [Authorize]
         public IActionResult Editar(int? id)
         {
             if (id == null || id == 0)
@@ -66,6 +70,7 @@ namespace ProyectoDAS.Controllers
 
         //Eliminar
         //Get
+        [Authorize]
         public IActionResult Eliminar(int? id)
         {
             if (id == null || id == 0)
